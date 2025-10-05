@@ -1,4 +1,5 @@
 import { Role, User } from '@prisma/client';
+import { Pagination } from 'src/common/dto/pagination.dto';
 
 export class UserRequestDTO {
   name: string;
@@ -26,5 +27,27 @@ export class UserResponseDTO {
       this.position = user.position;
       this.roles = user.role;
     }
+  }
+
+  static fromEntity(user: User): UserResponseDTO {
+    return new UserResponseDTO(user);
+  }
+
+  static fromEntities(users: User[]): UserResponseDTO[] {
+    return users.map(UserResponseDTO.fromEntity);
+  }
+}
+
+export class UserResponseDTOwithPagination {
+  users: UserResponseDTO[];
+  pagination: Pagination;
+
+  constructor(data: User[], pagination: Pagination) {
+    this.users = data.map(UserResponseDTO.fromEntity);
+    this.pagination = pagination;
+  }
+
+  static set(data: User[], pagination: Pagination) {
+    return new UserResponseDTOwithPagination(data, pagination);
   }
 }
