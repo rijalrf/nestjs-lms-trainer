@@ -1,4 +1,12 @@
-import { Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserRequestDTO } from './user.model';
 
@@ -6,14 +14,14 @@ import { UserRequestDTO } from './user.model';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Post('/register')
-  register(user: UserRequestDTO) {
+  @Post()
+  register(@Body() user: UserRequestDTO) {
     return this.userService.register(user);
   }
 
-  @Post('/update')
-  update(user: UserRequestDTO) {
-    return this.userService.update(user);
+  @Put('/:id')
+  update(@Param('id', ParseIntPipe) id: number, @Body() user: UserRequestDTO) {
+    return this.userService.update(id, user);
   }
 
   @Get()
@@ -22,7 +30,7 @@ export class UserController {
   }
 
   @Get('/:id')
-  findById(@Param('id') id: number) {
+  findById(@Param('id', ParseIntPipe) id: number) {
     return this.userService.findById(id);
   }
 }

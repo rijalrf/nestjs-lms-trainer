@@ -1,7 +1,6 @@
 import { Role, User } from '@prisma/client';
 
 export class UserRequestDTO {
-  id: number;
   name: string;
   email: string;
   password: string;

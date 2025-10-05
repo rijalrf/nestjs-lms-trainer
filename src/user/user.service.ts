@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { UserRequestDTO, UserResponseDTO } from './user.model';
+import { UserRequestDTO } from './user.model';
 import { UserRepository } from './user.repo';
 
 @Injectable()
@@ -7,26 +7,46 @@ export class UserService {
   constructor(private readonly userRepo: UserRepository) {}
 
   register(user: UserRequestDTO) {
-    const userDTO = this.userRepo.create(user);
-    return userDTO;
+    try {
+      const userDTO = this.userRepo.create(user);
+      return userDTO;
+    } catch (error) {
+      console.error(error);
+    }
   }
-  update(user: UserRequestDTO) {
-    const userDTO = this.userRepo.update(user);
-    return userDTO;
+  update(id: number, user: UserRequestDTO) {
+    try {
+      const userDTO = this.userRepo.update(id, user);
+      return userDTO;
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   findAll() {
-    const users = this.userRepo.findAll();
-    return users;
+    try {
+      const users = this.userRepo.findAll();
+      return users;
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   findByEmail(email: string) {
-    const user = this.userRepo.findByEmail(email);
-    return user;
+    try {
+      const user = this.userRepo.findByEmail(email);
+      return user;
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   findById(id: number) {
-    const user = this.userRepo.findById(id);
-    return user;
+    try {
+      const user = this.userRepo.findById(id);
+      return user;
+    } catch (error) {
+      console.error(error);
+    }
   }
 }

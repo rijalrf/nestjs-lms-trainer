@@ -7,32 +7,32 @@ import { User } from '@prisma/client';
 export class UserRepository {
   constructor(private readonly db: PrismaService) {}
 
-  async create(userModel: UserRequestDTO): Promise<UserResponseDTO> {
+  async create(request: UserRequestDTO): Promise<UserResponseDTO> {
     const user = await this.db.user.create({
       data: {
-        name: userModel.name,
-        email: userModel.email,
-        password: userModel.password,
-        divisi: userModel.divisi,
-        position: userModel.position,
-        role: userModel.roles,
+        name: request.name,
+        email: request.email,
+        password: request.password,
+        divisi: request.divisi,
+        position: request.position,
+        role: request.roles,
       },
     });
     return new UserResponseDTO(user);
   }
 
-  async update(userModel: UserRequestDTO): Promise<UserResponseDTO> {
+  async update(id: number, request: UserRequestDTO): Promise<UserResponseDTO> {
     const user = await this.db.user.update({
       where: {
-        id: userModel.id,
+        id: id,
       },
       data: {
-        name: userModel.name,
-        email: userModel.email,
-        password: userModel.password,
-        divisi: userModel.divisi,
-        position: userModel.position,
-        role: userModel.roles,
+        name: request.name,
+        email: request.email,
+        password: request.password,
+        divisi: request.divisi,
+        position: request.position,
+        role: request.roles,
       },
     });
     return new UserResponseDTO(user);

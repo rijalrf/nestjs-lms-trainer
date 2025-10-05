@@ -1,0 +1,32 @@
+POST http://localhost:3000/v1/api/users
+Content-Type: application/json
+
+{
+    "name": "Budi Santoso",
+    "email": "budi.santoso@example.com",
+    "password": "budi_s_pass",
+    "divisi": "Marketing",
+    "position": "Staff",
+    "roles": "USER"
+}
+###
+PUT http://localhost:3000/v1/api/users/1
+Content-Type: application/json
+
+{
+    "name": "John Doe Updated",
+    "email": "john.doe@example.com",
+    "password": "password123",
+    "divisi": "IT",
+    "position": "Developer",
+    "roles": "USER"
+}
+
+###
+GET http://localhost:3000/v1/api/users/
+Content-Type: application/json
+
+
+###
+GET http://localhost:3000/v1/api/users/2
+Content-Type: application/json
