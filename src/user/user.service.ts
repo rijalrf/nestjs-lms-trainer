@@ -21,7 +21,10 @@ export class UserService {
     }
   }
 
-  async update(id: number, request: UserRequestDTO): Promise<UserResponseDTO> {
+  async update(
+    id: number,
+    request: UserRequestDTO,
+  ): Promise<UserResponseDTO> {
     try {
       const user = await this.userRepo.update(id, request);
       return UserResponseDTO.fromEntity(user);

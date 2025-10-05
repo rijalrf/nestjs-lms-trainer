@@ -39,11 +39,11 @@ export class UserResponseDTO {
 }
 
 export class UserResponseDTOwithPagination {
-  users: UserResponseDTO[];
+  data: UserResponseDTO[];
   pagination: Pagination;
 
   constructor(data: User[], pagination: Pagination) {
-    this.users = data.map(UserResponseDTO.fromEntity);
+    this.data = data.map(UserResponseDTO.fromEntity);
     this.pagination = pagination;
   }
 

@@ -2,11 +2,11 @@ POST http://localhost:3000/v1/api/users
 Content-Type: application/json
 
 {
-    "name": "Budi Santoso",
-    "email": "budi.santoso@example.com",
-    "password": "budi_s_pass",
-    "divisi": "Marketing",
-    "position": "Staff",
+    "name": "Chandra Wijaya",
+    "email": "chandra.wijaya@example.com",
+    "password": "chandraW!j4y4",
+    "divisi": "IT",
+    "position": "Director",
     "roles": "USER"
 }
 ###
