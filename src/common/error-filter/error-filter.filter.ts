@@ -16,21 +16,18 @@ export class ErrorFilterFilter<T> implements ExceptionFilter {
         success: false,
         code: 400,
         message: exception.issues,
-        data: null,
       });
     } else if (exception instanceof HttpException) {
       response.status(exception.getStatus()).json({
         success: false,
         code: exception.getStatus(),
         message: exception.message,
-        data: null,
       });
     } else {
       response.status(500).json({
         success: false,
         code: 500,
         message: exception,
-        data: null,
       });
     }
   }

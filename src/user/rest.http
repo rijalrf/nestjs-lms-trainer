@@ -1,15 +1,3 @@
-POST http://localhost:3000/v1/api/users
-Content-Type: application/json
-
-{
-    "name": "Rijal Rifai",
-    "email": "rijal@ppu.co.id",
-    "password": "",
-    "divisi": "IT",
-    "position": "TechLead",
-    "roles": "ADMIN"
-}
-###
 PUT http://localhost:3000/v1/api/users/6
 Content-Type: application/json
 

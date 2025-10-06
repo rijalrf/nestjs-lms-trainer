@@ -1,3 +1,16 @@
+POST http://localhost:3000/v1/api/auth/register
+Content-Type: application/json
+
+{
+    "name": "Rijal Rifais",
+    "email": "rijal@ppu.co.id1",
+    "password": "ss",
+    "divisi": "IT",
+    "position": "TechLead",
+    "roles": "ADMIN"
+}
+
+###
 POST http://localhost:3000/v1/api/auth/login
 Content-Type: application/json
 
@@ -5,3 +18,8 @@ Content-Type: application/json
     "email" : "rijal@ppu.co.id",
     "password": "rijal123"
 }
+
+###
+GET http://localhost:3000/v1/api/auth/profile
+Content-Type: application/json
+Authorization: 292af47b-9d08-4ab3-89e3-a49307523d4da

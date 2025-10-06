@@ -19,7 +19,12 @@ export class UserService {
   async register(request: UserRequestDTO): Promise<UserResponseDTO> {
     const hashPassword = await this.hashService.hashPassword(request.password);
     request.password = hashPassword;
+
     try {
+      const existingUser = await this.userRepo.findByEmail(request.email);
+      if (existingUser) {
+        throw new HttpException('Email already exists', HttpStatus.BAD_REQUEST);
+      }
       const user = await this.userRepo.create(request);
       return UserResponseDTO.fromEntity(user);
     } catch (error) {

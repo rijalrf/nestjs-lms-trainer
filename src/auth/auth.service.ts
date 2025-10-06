@@ -6,8 +6,10 @@ import {
 } from '@nestjs/common';
 import { HashService } from 'src/helper/hash/hash.service';
 import { UserService } from 'src/user/user.service';
-import { LoginResponseDTO } from './dto/auth.dto';
+import { LoginRequestDTO, LoginResponseDTO } from './dto/auth.dto';
 import { v4 as uuid } from 'uuid';
+import { UserRequestDTO, UserResponseDTO } from 'src/user/user.model';
+import { User } from '@prisma/client';
 
 @Injectable()
 export class AuthService {
@@ -16,32 +18,41 @@ export class AuthService {
     private readonly hashService: HashService,
   ) {}
 
-  async login(email: string, password: string): Promise<LoginResponseDTO> {
+  async login(request: LoginRequestDTO): Promise<LoginResponseDTO> {
     try {
-      const user = await this.userService.findAuthByEmail(email);
+      const user = await this.userService.findAuthByEmail(request.email);
       if (!user) {
-        throw new HttpException(
-          'email or password is wrong',
-          HttpStatus.NOT_FOUND,
-        );
+        throw new HttpException('User not found', HttpStatus.NOT_FOUND);
       }
-
-      const passwordMatch = await this.hashService.comparePassword(
-        password,
+      const isPasswordValid = await this.hashService.comparePassword(
+        request.password,
         user.password,
       );
-      console.log({ passwordMatch });
-      if (!passwordMatch) {
-        throw new UnauthorizedException('email or password is wrong');
+      if (!isPasswordValid) {
+        throw new HttpException('Invalid password', HttpStatus.UNAUTHORIZED);
       }
-
       const token = uuid();
       await this.userService.setUserToken(user.id, token);
-
-      return LoginResponseDTO.set(user, '123456');
+      return LoginResponseDTO.set(user, token);
     } catch (error) {
       console.error(error);
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
+  }
+
+  async register(request: UserRequestDTO): Promise<UserResponseDTO> {
+    const hashPassword = await this.hashService.hashPassword(request.password);
+    request.password = hashPassword;
+    try {
+      const user = await this.userService.register(request);
+      return user;
+    } catch (error) {
+      console.error(error);
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async profile(user: UserResponseDTO): Promise<UserResponseDTO> {
+    return user;
   }
 }

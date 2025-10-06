@@ -11,8 +11,8 @@ export class LoginResponseDTO {
   data: UserResponseDTO;
 
   constructor(user: User, token: string) {
-    this.token = token;
     this.data = UserResponseDTO.fromEntity(user);
+    this.token = token;
   }
 
   static set(user: User, token: string) {

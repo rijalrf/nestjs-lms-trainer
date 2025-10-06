@@ -23,7 +23,7 @@ import { ErrorFilterFilter } from 'src/common/error-filter/error-filter.filter';
 import { ZBody } from 'src/common/decorator/zod.decorator';
 
 @UseFilters(ErrorFilterFilter)
-@UseInterceptors(SuccessResponseInterceptor)
+// @UseInterceptors(SuccessResponseInterceptor)
 @Controller('/v1/api/users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
