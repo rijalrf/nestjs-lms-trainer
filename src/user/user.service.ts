@@ -6,12 +6,18 @@ import {
 } from './user.model';
 import { UserRepository } from './user.repo';
 import { Pagination } from 'src/common/dto/pagination.dto';
+import { HashService } from 'src/helper/hash/hash.service';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly userRepo: UserRepository) {}
+  constructor(
+    private readonly userRepo: UserRepository,
+    private readonly hashService: HashService,
+  ) {}
 
   async register(request: UserRequestDTO): Promise<UserResponseDTO> {
+    const hashPassword = await this.hashService.hashPassword(request.password);
+    request.password = hashPassword;
     try {
       const user = await this.userRepo.create(request);
       return UserResponseDTO.fromEntity(user);
@@ -21,10 +27,9 @@ export class UserService {
     }
   }
 
-  async update(
-    id: number,
-    request: UserRequestDTO,
-  ): Promise<UserResponseDTO> {
+  async update(id: number, request: UserRequestDTO): Promise<UserResponseDTO> {
+    const hashPassword = await this.hashService.hashPassword(request.password);
+    request.password = hashPassword;
     try {
       const user = await this.userRepo.update(id, request);
       return UserResponseDTO.fromEntity(user);
