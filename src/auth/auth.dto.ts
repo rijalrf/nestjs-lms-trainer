@@ -1,5 +1,5 @@
 import { User } from '@prisma/client';
-import { UserResponseDTO } from 'src/user/user.model';
+import { UserResponseDTO } from 'src/user/user.dto';
 
 export class LoginRequestDTO {
   email: string;
@@ -17,5 +17,19 @@ export class LoginResponseDTO {
 
   static set(user: User, token: string) {
     return new LoginResponseDTO(user, token);
+  }
+}
+
+export class LogoutResponseDTO {
+  data: null;
+  token: null;
+
+  constructor() {
+    this.data = null;
+    this.token = null;
+  }
+
+  static clear() {
+    return new LogoutResponseDTO();
   }
 }

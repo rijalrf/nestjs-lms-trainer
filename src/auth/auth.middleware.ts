@@ -5,13 +5,13 @@ import { UserService } from 'src/user/user.service';
 export class AuthMiddleware implements NestMiddleware {
   constructor(private readonly userService: UserService) {}
   async use(req: any, res: any, next: () => void) {
-    const token = req.headers['authorization'] as string;
+    const token = req.cookies['token'] as string;
     if (token) {
       const user = await this.userService.findUserByToken(token);
       if (user) {
         req.user = user;
       }
     }
-    next(); 
+    next();
   }
 }

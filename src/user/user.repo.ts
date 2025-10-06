@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { UserRequestDTO } from './user.model';
+import { UserRequestDTO } from './user.dto';
 import { User } from '@prisma/client';
 
 @Injectable()
@@ -87,6 +87,17 @@ export class UserRepository {
         token: token,
       },
     });
-    return user;
+    return user;  
+  }
+
+  async clearTokenById(id: number): Promise<void> {
+    await this.db.user.update({
+      where: {
+        id: id,
+      },
+      data: {
+        token: null,
+      },
+    });
   }
 }

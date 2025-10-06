@@ -3,7 +3,7 @@ import {
   UserRequestDTO,
   UserResponseDTO,
   UserResponseDTOwithPagination,
-} from './user.model';
+} from './user.dto';
 import { UserRepository } from './user.repo';
 import { Pagination } from 'src/common/dto/pagination.dto';
 import { HashService } from 'src/helper/hash/hash.service';
@@ -121,6 +121,15 @@ export class UserService {
         throw new HttpException('User not found', HttpStatus.NOT_FOUND);
       }
       return UserResponseDTO.fromEntity(user);
+    } catch (error) {
+      console.error(error);
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async clearTokenById(id: number): Promise<void> {
+    try {
+      await this.userRepo.clearTokenById(id);
     } catch (error) {
       console.error(error);
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);

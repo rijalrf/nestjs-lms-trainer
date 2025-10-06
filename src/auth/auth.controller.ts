@@ -4,17 +4,22 @@ import {
   Controller,
   Post,
   Body,
-  Request,
-  UseGuards,
   Get,
   UseInterceptors,
+  Res,
+  Delete,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { UserRequestDTO, UserResponseDTO } from 'src/user/user.model';
-import { LoginRequestDTO, LoginResponseDTO } from './dto/auth.dto';
+import { UserRequestDTO, UserResponseDTO } from 'src/user/user.dto';
+import {
+  LoginRequestDTO,
+  LoginResponseDTO,
+  LogoutResponseDTO,
+} from './auth.dto';
 import { Auth } from './auth.decorator';
 import { SuccessResponseInterceptor } from 'src/common/success-response/success-response.interceptor';
 import { Message } from 'src/common/decorator/message.decorator';
+import type { response, Response } from 'express';
 
 UseInterceptors(SuccessResponseInterceptor);
 @Controller('/v1/api/auth')
@@ -29,9 +34,26 @@ export class AuthController {
   }
   @Post('/login')
   @Message('Success login')
-  async login(@Body() request: LoginRequestDTO): Promise<LoginResponseDTO> {
+  async login(
+    @Body() request: LoginRequestDTO,
+    @Res({ passthrough: true }) response: Response,
+  ): Promise<LoginResponseDTO> {
     const data = await this.authService.login(request);
+    response.cookie('token', data.token, {
+      httpOnly: true,
+      maxAge: 24 * 60 * 60 * 1000,
+    });
     return data;
+  }
+
+  @Delete('/logout')
+  @Message('Success logout')
+  async logout(
+    @Auth() user: UserResponseDTO,
+    @Res({ passthrough: true }) response: Response,
+  ): Promise<void> {
+    await this.authService.logout(user);
+    response.clearCookie('token');
   }
 
   @Get('/profile')

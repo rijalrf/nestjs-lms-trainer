@@ -15,7 +15,7 @@ import {
   UserRequestDTO,
   UserResponseDTO,
   UserResponseDTOwithPagination,
-} from './user.model';
+} from './user.dto';
 import { SuccessResponseInterceptor } from 'src/common/success-response/success-response.interceptor';
 import { Message } from 'src/common/decorator/message.decorator';
 import { UserValidation } from './user.validation';
