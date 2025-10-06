@@ -4,7 +4,7 @@ import { AuthService } from './auth.service';
 import { UserModule } from 'src/user/user.module';
 import { HashService } from 'src/helper/hash/hash.service';
 import { AuthMiddleware } from './auth.middleware';
-import { SuccessResponseInterceptor } from 'src/common/success-response/success-response.interceptor';
+import { SuccessResponseInterceptor } from 'src/common/success-response.interceptor';
 
 @Module({
   imports: [UserModule],

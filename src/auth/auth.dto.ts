@@ -20,16 +20,3 @@ export class LoginResponseDTO {
   }
 }
 
-export class LogoutResponseDTO {
-  data: null;
-  token: null;
-
-  constructor() {
-    this.data = null;
-    this.token = null;
-  }
-
-  static clear() {
-    return new LogoutResponseDTO();
-  }
-}

@@ -3,16 +3,10 @@ import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { UserRepository } from './user.repo';
 import { HashService } from 'src/helper/hash/hash.service';
-import { ErrorFilterFilter } from 'src/common/error-filter/error-filter.filter';
 
 @Module({
   controllers: [UserController],
-  providers: [
-    UserService,
-    UserRepository,
-    HashService,
-    ErrorFilterFilter,
-  ],
+  providers: [UserService, UserRepository, HashService],
   exports: [UserService],
 })
 export class UserModule {}

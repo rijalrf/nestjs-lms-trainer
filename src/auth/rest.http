@@ -15,12 +15,14 @@ POST http://localhost:3000/v1/api/auth/login
 Content-Type: application/json
 
 {
-    "email" : "rijal@ppu.co.id12",
+    "email" : "rijal@ppu.co.id",
     "password": "rijal123"
 }
+
 ###
 DELETE  http://localhost:3000/v1/api/auth/logout
 Content-Type: application/json
+
 ###
 GET http://localhost:3000/v1/api/auth/profile
 Content-Type: application/json

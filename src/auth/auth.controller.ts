@@ -1,41 +1,30 @@
 // src/auth/auth.controller.ts
 
-import {
-  Controller,
-  Post,
-  Body,
-  Get,
-  UseInterceptors,
-  Res,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Post, Get, Res, Delete } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UserRequestDTO, UserResponseDTO } from 'src/user/user.dto';
-import {
-  LoginRequestDTO,
-  LoginResponseDTO,
-  LogoutResponseDTO,
-} from './auth.dto';
+import { LoginRequestDTO, LoginResponseDTO } from './auth.dto';
 import { Auth } from './auth.decorator';
-import { SuccessResponseInterceptor } from 'src/common/success-response/success-response.interceptor';
 import { Message } from 'src/common/decorator/message.decorator';
-import type { response, Response } from 'express';
+import type { Response } from 'express';
+import { ZBody } from 'src/common/decorator/zod.decorator';
+import { AuthValidation } from './auth.validation';
 
-UseInterceptors(SuccessResponseInterceptor);
 @Controller('/v1/api/auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('/register')
   @Message('Success register')
-  async register(@Body() request: UserRequestDTO) {
+  async register(@ZBody(AuthValidation.REGISTER) request: UserRequestDTO) {
     const data = await this.authService.register(request);
     return data;
   }
+
   @Post('/login')
   @Message('Success login')
   async login(
-    @Body() request: LoginRequestDTO,
+    @ZBody(AuthValidation.LOGIN) request: LoginRequestDTO,
     @Res({ passthrough: true }) response: Response,
   ): Promise<LoginResponseDTO> {
     const data = await this.authService.login(request);

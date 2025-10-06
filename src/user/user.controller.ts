@@ -8,7 +8,6 @@ import {
   Put,
   Query,
   UseFilters,
-  UseInterceptors,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import {
@@ -16,21 +15,19 @@ import {
   UserResponseDTO,
   UserResponseDTOwithPagination,
 } from './user.dto';
-import { SuccessResponseInterceptor } from 'src/common/success-response/success-response.interceptor';
 import { Message } from 'src/common/decorator/message.decorator';
 import { UserValidation } from './user.validation';
-import { ErrorFilterFilter } from 'src/common/error-filter/error-filter.filter';
+import { ErrorResponseFilter } from 'src/common/error-response.filter';
 import { ZBody } from 'src/common/decorator/zod.decorator';
 
-@UseFilters(ErrorFilterFilter)
-// @UseInterceptors(SuccessResponseInterceptor)
+@UseFilters(ErrorResponseFilter)
 @Controller('/v1/api/users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
   async register(
-    @ZBody(UserValidation.REGISTER) user: UserRequestDTO,
+    @ZBody(UserValidation.CREATEUPDATE) user: UserRequestDTO,
   ): Promise<UserResponseDTO> {
     const data = await this.userService.register(user);
     return data;
@@ -39,7 +36,7 @@ export class UserController {
   @Put('/:id')
   async update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() user: UserRequestDTO,
+    @ZBody(UserValidation.CREATEUPDATE) user: UserRequestDTO,
   ): Promise<UserResponseDTO> {
     const data = await this.userService.update(id, user);
     return data;

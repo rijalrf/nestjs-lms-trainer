@@ -1,10 +1,13 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
-import { SuccessResponseInterceptor } from './success-response/success-response.interceptor';
-import { ErrorFilterFilter } from './error-filter/error-filter.filter';
+import { SuccessResponseInterceptor } from './success-response.interceptor';
+import { ErrorResponseFilter } from './error-response.filter';
 import { AuthMiddleware } from 'src/auth/auth.middleware';
-import { UserService } from 'src/user/user.service';
-import { HashService } from 'src/helper/hash/hash.service';
 import { UserModule } from 'src/user/user.module';
 
 @Module({
@@ -16,7 +19,7 @@ import { UserModule } from 'src/user/user.module';
     },
     {
       provide: APP_FILTER,
-      useClass: ErrorFilterFilter,
+      useClass: ErrorResponseFilter,
     },
   ],
 })
@@ -25,6 +28,6 @@ export class CommonModule implements NestModule {
     consumer
       .apply(AuthMiddleware)
       .exclude('/v1/api/auth/login', '/v1/api/auth/register')
-      .forRoutes('/v1/api/*');
+      .forRoutes('/v1/api');
   }
 }
