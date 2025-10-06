@@ -87,7 +87,7 @@ export class UserRepository {
         token: token,
       },
     });
-    return user;  
+    return user;
   }
 
   async clearTokenById(id: number): Promise<void> {

@@ -1,13 +1,7 @@
-import {
-  MiddlewareConsumer,
-  Module,
-  NestModule,
-  RequestMethod,
-} from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { SuccessResponseInterceptor } from './success-response.interceptor';
 import { ErrorResponseFilter } from './error-response.filter';
-import { AuthMiddleware } from 'src/auth/auth.middleware';
 import { UserModule } from 'src/user/user.module';
 
 @Module({
@@ -23,11 +17,4 @@ import { UserModule } from 'src/user/user.module';
     },
   ],
 })
-export class CommonModule implements NestModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(AuthMiddleware)
-      .exclude('/v1/api/auth/login', '/v1/api/auth/register')
-      .forRoutes('/v1/api');
-  }
-}
+export class CommonModule {}

@@ -19,4 +19,3 @@ export class LoginResponseDTO {
     return new LoginResponseDTO(user, token);
   }
 }
-

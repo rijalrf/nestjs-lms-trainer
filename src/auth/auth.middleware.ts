@@ -4,7 +4,7 @@ import { UserService } from 'src/user/user.service';
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
   constructor(private readonly userService: UserService) {}
-  async use(req: any, res: any, next: () => void) {
+  async use(req: any, _res: any, next: () => void) {
     const token = req.cookies['token'] as string;
     if (token) {
       const user = await this.userService.findUserByToken(token);

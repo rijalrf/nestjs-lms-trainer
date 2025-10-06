@@ -1,9 +1,4 @@
-import {
-  HttpException,
-  HttpStatus,
-  Injectable,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { HashService } from 'src/helper/hash/hash.service';
 import { UserService } from 'src/user/user.service';
 import { LoginRequestDTO, LoginResponseDTO } from './auth.dto';
