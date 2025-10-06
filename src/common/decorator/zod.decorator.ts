@@ -1,0 +1,5 @@
+import { Body } from '@nestjs/common';
+import { ZodType } from 'zod';
+import { ZodValidationPipe } from '../zod-validation/zod-validation.pipe';
+
+export const ZBody = (schema: ZodType) => Body(new ZodValidationPipe(schema));

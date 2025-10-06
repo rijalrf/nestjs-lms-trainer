@@ -2,28 +2,28 @@ POST http://localhost:3000/v1/api/users
 Content-Type: application/json
 
 {
-    "name": "Fajar Hidayat",
-    "email": "fajar.hidayat@example.com",
-    "password": "fajarhidayatpw",
+    "name": "Rijal Rifai",
+    "email": "rijal@ppu.co.id",
+    "password": "",
     "divisi": "IT",
-    "position": "Technician",
-    "roles": "USER"
+    "position": "TechLead",
+    "roles": "ADMIN"
 }
 ###
-PUT http://localhost:3000/v1/api/users/1
+PUT http://localhost:3000/v1/api/users/6
 Content-Type: application/json
 
 {
-    "name": "John Doe Updated",
-    "email": "john.doe@example.com",
-    "password": "password123",
-    "divisi": "IT",
-    "position": "Developer",
-    "roles": "USER"
+      "name": "Fajar Hidayat",
+      "email": "fajar.hidayat@example.com",
+      "divisi": "IT",
+      "position": "Technician",
+      "roles": "USER",
+      "password": "password123"
 }
 
 ###
-GET http://localhost:3000/v1/api/users?page=1&limit=3
+GET http://localhost:3000/v1/api/users?page=1&limit=10
 Content-Type: application/json
 
 

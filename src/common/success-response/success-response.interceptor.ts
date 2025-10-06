@@ -28,6 +28,16 @@ export class SuccessResponseInterceptor implements NestInterceptor {
             pagination: pagination,
           };
         }
+        if (result && result.data && result.token) {
+          const { data, token } = result;
+          return {
+            success: true,
+            code,
+            message,
+            data: data,
+            token: token,
+          };
+        }
         return {
           success: true,
           code,

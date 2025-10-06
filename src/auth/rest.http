@@ -1,0 +1,7 @@
+POST http://localhost:3000/v1/api/auth/login
+Content-Type: application/json
+
+{
+    "email" : "rijal@ppu.co.id",
+    "password": "rijal123"
+}

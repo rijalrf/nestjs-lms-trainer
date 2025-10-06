@@ -69,4 +69,24 @@ export class UserRepository {
     const count = await this.db.user.count();
     return count;
   }
+
+  async updateUserToken(id: number, token: string): Promise<void> {
+    await this.db.user.update({
+      where: {
+        id: id,
+      },
+      data: {
+        token: token,
+      },
+    });
+  }
+
+  async findUserByToken(token: string): Promise<User | null> {
+    const user = await this.db.user.findFirst({
+      where: {
+        token: token,
+      },
+    });
+    return user;
+  }
 }

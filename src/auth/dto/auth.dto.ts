@@ -1,0 +1,21 @@
+import { User } from '@prisma/client';
+import { UserResponseDTO } from 'src/user/user.model';
+
+export class LoginRequestDTO {
+  email: string;
+  password: string;
+}
+
+export class LoginResponseDTO {
+  token: string;
+  data: UserResponseDTO;
+
+  constructor(user: User, token: string) {
+    this.token = token;
+    this.data = UserResponseDTO.fromEntity(user);
+  }
+
+  static set(user: User, token: string) {
+    return new LoginResponseDTO(user, token);
+  }
+}

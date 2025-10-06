@@ -7,6 +7,7 @@ import {
 import { UserRepository } from './user.repo';
 import { Pagination } from 'src/common/dto/pagination.dto';
 import { HashService } from 'src/helper/hash/hash.service';
+import { User } from '@prisma/client';
 
 @Injectable()
 export class UserService {
@@ -74,9 +75,43 @@ export class UserService {
     }
   }
 
+  async findAuthByEmail(email: string): Promise<User> {
+    try {
+      const user = await this.userRepo.findByEmail(email);
+      if (!user) {
+        throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+      }
+      return user;
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
   async findById(id: number): Promise<UserResponseDTO> {
     try {
       const user = await this.userRepo.findById(id);
+      if (!user) {
+        throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+      }
+      return UserResponseDTO.fromEntity(user);
+    } catch (error) {
+      console.error(error);
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async setUserToken(id: number, token: string): Promise<void> {
+    try {
+      await this.userRepo.updateUserToken(id, token);
+    } catch (error) {
+      console.error(error);
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async findUserByToken(token: string): Promise<UserResponseDTO> {
+    try {
+      const user = await this.userRepo.findUserByToken(token);
       if (!user) {
         throw new HttpException('User not found', HttpStatus.NOT_FOUND);
       }

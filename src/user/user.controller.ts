@@ -7,6 +7,7 @@ import {
   Post,
   Put,
   Query,
+  UseFilters,
   UseInterceptors,
 } from '@nestjs/common';
 import { UserService } from './user.service';
@@ -17,14 +18,20 @@ import {
 } from './user.model';
 import { SuccessResponseInterceptor } from 'src/common/success-response/success-response.interceptor';
 import { Message } from 'src/common/decorator/message.decorator';
+import { UserValidation } from './user.validation';
+import { ErrorFilterFilter } from 'src/common/error-filter/error-filter.filter';
+import { ZBody } from 'src/common/decorator/zod.decorator';
 
+@UseFilters(ErrorFilterFilter)
 @UseInterceptors(SuccessResponseInterceptor)
 @Controller('/v1/api/users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post()
-  async register(@Body() user: UserRequestDTO): Promise<UserResponseDTO> {
+  async register(
+    @ZBody(UserValidation.REGISTER) user: UserRequestDTO,
+  ): Promise<UserResponseDTO> {
     const data = await this.userService.register(user);
     return data;
   }
