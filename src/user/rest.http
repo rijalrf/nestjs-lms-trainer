@@ -1,13 +1,13 @@
-PUT http://localhost:3000/v1/api/users/6
+PUT http://localhost:3000/v1/api/users/14
 Content-Type: application/json
 
 {
-      "name": "Fajar Hidayat",
-      "email": "fajar.hidayat@example.com",
-      "divisi": "IT",
-      "position": "Technician",
-      "roles": "USER",
-      "password": "password123"
+    "name": "Gita Amelia Updated",
+    "email": "gita.amelia@example.com",
+    "password": "GitaAmel!a",
+    "divisi": "R&D",
+    "position": "Lead",
+    "roles": "ADMIN"
 }
 
 ###

@@ -4,9 +4,8 @@
 
 ### User Login
 
-Authenticates a user and returns an access token.
 
-- URL: `/auth/login`
+- URL: `v1/api/auth/login`
 - Method: `POST`
 
 **Request Body:**
@@ -22,36 +21,59 @@ Authenticates a user and returns an access token.
 
 ```json
 {
-  "statusCode": 200,
-  "isSucces": true,
+  "code": 200,
+  "success": true,
   "message": "User logged in successfully",
-  "user": {
+  "data": {
     "id": "uuid-of-user",
     "name": "John Doe",
     "email": "john.doe@example.com",
     "divisi": "IT",
     "position": "Software Engineer",
-    "role": "trainer"
+    "role": "ADMIN"
   }
 }
 ```
 
 **Error Responses:**
 
-- **401 Unauthorized:** If the email or password is incorrect.
-- **400 Bad Request:** If the request body is invalid or missing required fields.
 
 ```json
 {
-  "statusCode": 401,
-  "isSucces": false,
-  "message": "Invalid email or password"
+  "success": false,
+  "code": 400,
+  "message": "Validation failed",
+  "errors": [
+    {
+      "field": "email",
+      "error": "Invalid email address"
+    },
+    {
+      "field": "password",
+      "error": "Too small: expected string to have >=8 characters"
+    }
+  ]
+}
+```
+### User Logout
+
+
+- URL: `v1/api/auth/logout`
+- Method: `POST`
+
+
+**Response (200 OK):**
+
+```json
+{
+  "code": 200,
+  "success": true,
+  "message": "Succes Logout"
 }
 ```
 
 ### User Registration
 
-Registers a new user with the specified role.
 
 **URL:** `/auth/register`
 
@@ -61,9 +83,12 @@ Registers a new user with the specified role.
 
 ```json
 {
-  "name": "Jane Doe",
-  "email": "jane.doe@example.com",
-  "password": "anothersecurepassword"
+    "name": "Gita Amelia",
+    "email": "gita.amelia@example.com",
+    "password": "GitaAmel!a",
+    "divisi": "R&D",
+    "position": "Lead",
+    "roles": "ADMIN"
 }
 ```
 
@@ -71,36 +96,43 @@ Registers a new user with the specified role.
 
 ```json
 {
-  "statusCode": 201,
-  "isSucces": true,
-  "message": "User registered successfully",
+  "success": true,
+  "code": 201,
+  "message": "Success register",
   "data": {
-    "id": "uuid-of-new-user",
-    "name": "Jane Doe",
-    "email": "jane.doe@example.com",
-    "divisi": "IT",
-    "position": "Software Engineer",
-    "role": "student"
+    "id": 14,
+    "name": "Gita Amelia",
+    "email": "gita.amelia@example.com",
+    "divisi": "R&D",
+    "position": "Lead",
+    "roles": "ADMIN"
   }
 }
 ```
 
 **Error Responses:**
 
-- **400 Bad Request:** If the request body is invalid or missing required fields.
-- **409 Conflict:** If a user with the provided email or username already exists.
 
 ```json
 {
-  "statusCode": 401,
-  "isSucces": false,
-  "message": "User with this email or username already exists"
+  "success": false,
+  "code": 400,
+  "message": "Validation failed",
+  "errors": [
+    {
+      "field": "email",
+      "error": "Invalid email address"
+    },
+    {
+      "field": "password",
+      "error": "Too small: expected string to have >=8 characters"
+    }
+  ]
 }
 ```
 
 ### Update User
 
-Updates an existing user's information, including their role.
 
 **URL:** `/users/:id`
 
@@ -110,9 +142,12 @@ Updates an existing user's information, including their role.
 
 ```json
 {
-  "username": "john.doe.updated",
-  "email": "john.doe.updated@example.com",
-  "role": "admin"
+    "name": "Gita Amelia Updated",
+    "email": "gita.amelia@example.com",
+    "password": "GitaAmel!a",
+    "divisi": "R&D",
+    "position": "Lead",
+    "roles": "ADMIN"
 }
 ```
 
@@ -120,11 +155,15 @@ Updates an existing user's information, including their role.
 
 ```json
 {
-  "id": "uuid-of-updated-user",
-  "name": "john doe updated",
-  "email": "john.doe.updated@example.com",
-  "role": "admin",
-  "divisi": "IT",
-  "position": "Software Engineer"
+  "success": true,
+  "code": 200,
+  "data": {
+    "id": 14,
+    "name": "Gita Amelia Updated",
+    "email": "gita.amelia@example.com",
+    "divisi": "R&D",
+    "position": "Lead",
+    "roles": "ADMIN"
+  }
 }
 ```

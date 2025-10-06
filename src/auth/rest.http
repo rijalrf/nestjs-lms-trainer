@@ -2,11 +2,11 @@ POST http://localhost:3000/v1/api/auth/register
 Content-Type: application/json
 
 {
-    "name": "Rijal Rifais",
-    "email": "rijal@ppu.co.id1",
-    "password": "ss",
-    "divisi": "IT",
-    "position": "TechLead",
+    "name": "Gita Amelia",
+    "email": "gita.amelia@example.com",
+    "password": "GitaAmel!a",
+    "divisi": "R&D",
+    "position": "Lead",
     "roles": "ADMIN"
 }
 
@@ -15,8 +15,8 @@ POST http://localhost:3000/v1/api/auth/login
 Content-Type: application/json
 
 {
-    "email" : "rijal@ppu.co.id",
-    "password": "rijal123"
+    "email" : "rijalppu.co.id",
+    "password": "ri123"
 }
 
 ###
