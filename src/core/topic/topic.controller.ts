@@ -55,7 +55,7 @@ export class TopicController {
 
   @Get()
   async findAll(
-    @Query('title') title: string | '',
+    @Query('search') title: string | '',
     @Query('page', ParseIntPipe) page: number,
     @Query('limit', ParseIntPipe) limit: number,
   ): Promise<TopicResponseDTOwithPagination> {
