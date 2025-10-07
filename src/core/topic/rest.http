@@ -1,0 +1,8 @@
+POST http://localhost:5000/v1/api/topic
+Content-Type: application/json
+{
+    "title": "Clean Code",
+    "description" : "Fundamental Clean Code"
+}
+
+###

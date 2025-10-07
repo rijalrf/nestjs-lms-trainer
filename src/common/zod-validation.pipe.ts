@@ -5,6 +5,7 @@ import { ZodType } from 'zod';
 export class ZodValidationPipe implements PipeTransform {
   constructor(private readonly schema: ZodType) {}
   transform(value: any, _metadata: ArgumentMetadata) {
+    console.log('data request ', value);
     return this.schema.parse(value);
   }
 }

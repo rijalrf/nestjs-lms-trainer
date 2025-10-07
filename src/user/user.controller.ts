@@ -1,5 +1,6 @@
 import {
   Controller,
+  Delete,
   Get,
   Param,
   ParseIntPipe,
@@ -39,6 +40,12 @@ export class UserController {
   ): Promise<UserResponseDTO> {
     const data = await this.userService.update(id, user);
     return data;
+  }
+
+  @Delete('/:id')
+  @Message('Success delete user')
+  async delete(@Param('id', ParseIntPipe) id: number): Promise<void> {
+    await this.userService.delete(id);
   }
 
   @Get()

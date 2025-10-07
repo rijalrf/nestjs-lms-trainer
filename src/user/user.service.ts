@@ -37,10 +37,23 @@ export class UserService {
     const hashPassword = await this.hashService.hashPassword(request.password);
     request.password = hashPassword;
     try {
+      if (request.password === '') {
+        const user = await this.userRepo.updateUserWithoutPassword(id, request);
+        return UserResponseDTO.fromEntity(user);
+      }
       const user = await this.userRepo.update(id, request);
       return UserResponseDTO.fromEntity(user);
     } catch (error) {
       console.error(error);
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async delete(id: number): Promise<void> {
+    try {
+      await this.userRepo.delete(id);
+    } catch (error) {
+    console.error(error);
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }

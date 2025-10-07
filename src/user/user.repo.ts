@@ -38,6 +38,14 @@ export class UserRepository {
     return user;
   }
 
+  async delete(id: number): Promise<void> {
+    await this.db.user.delete({
+      where: {
+        id: id,
+      },
+    });
+  }
+
   async findByEmail(email: string): Promise<User | null> {
     const user = await this.db.user.findUnique({
       where: {
@@ -99,5 +107,24 @@ export class UserRepository {
         token: null,
       },
     });
+  }
+
+  async updateUserWithoutPassword(
+    id: number,
+    request: UserRequestDTO,
+  ): Promise<User> {
+    const user = await this.db.user.update({
+      where: {
+        id: id,
+      },
+      data: {
+        name: request.name,
+        email: request.email,
+        divisi: request.divisi,
+        position: request.position,
+        role: request.roles,
+      },
+    });
+    return user;
   }
 }
