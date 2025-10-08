@@ -6,6 +6,7 @@ import {
   TopicResponseDTOwithPagination,
 } from './topic.dto';
 import { Pagination } from 'src/common/dto/pagination.dto';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class TopicService {
@@ -40,6 +41,15 @@ export class TopicService {
     try {
       await this.topicRepo.delete(id);
     } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        // Kode 'P2003' spesifik untuk foreign key constraint violation
+        if (error.code === 'P2003') {
+          throw new HttpException(
+            'Gagal menghapus topik. Topik ini masih digunakan oleh data lain.',
+            HttpStatus.CONFLICT,
+          );
+        }
+      }
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }

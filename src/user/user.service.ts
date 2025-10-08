@@ -53,7 +53,7 @@ export class UserService {
     try {
       await this.userRepo.delete(id);
     } catch (error) {
-    console.error(error);
+      console.error(error);
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
@@ -131,7 +131,7 @@ export class UserService {
     try {
       const user = await this.userRepo.findUserByToken(token);
       if (!user) {
-        throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+        throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
       }
       return UserResponseDTO.fromEntity(user);
     } catch (error) {

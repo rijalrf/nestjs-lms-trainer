@@ -6,3 +6,9 @@ Content-Type: application/json
 }
 
 ###
+GET http://localhost:5000/v1/api/topics?page=1&limit=10
+Content-Type: application/json
+
+###
+GET http://localhost:5000/v1/api/topics/1
+Content-Type: application/json

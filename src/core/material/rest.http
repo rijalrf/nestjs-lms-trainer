@@ -1,0 +1,33 @@
+POST http://localhost:5000/v1/api/materials
+Content-Type: application/json
+
+{
+  "title": "NestJS Fundamentals",
+  "description": "An in-depth look at the core concepts of NestJS.",
+  "topicId": 9,
+  "fileUrl": "https://example.com/nestjs-fundamentals.pdf"
+}
+
+###
+PUT http://localhost:5000/v1/api/materials/2
+Content-Type: application/json
+
+{
+  "title": "NestJS Fundamentals Updated",
+  "description": "An in-depth look at the core concepts of NestJS, updated.",
+  "topicId": 9,
+  "fileUrl": "https://example.com/nestjs-fundamentals-v2.pdf"
+}
+
+###
+GET http://localhost:5000/v1/api/materials/topic/9?page=1&limit=10
+Content-Type: application/json
+
+###
+GET http://localhost:5000/v1/api/materials/2
+Content-Type: application/json
+
+
+###
+DELETE http://localhost:5000/v1/api/materials/1
+Content-Type: application/json
