@@ -74,11 +74,8 @@ export class MaterialService {
     try {
       const skip = (page - 1) * limit;
       const take = limit;
-      const pagination = new Pagination();
-      pagination.currentPage = page;
-      pagination.perPage = limit;
-      pagination.totalItems = await this.materialRepo.count(topicId);
-      pagination.totalPages = Math.ceil(pagination.totalItems / limit);
+      const totalItems = await this.materialRepo.count(topicId);
+      const pagination = new Pagination(page, limit, totalItems);
       const data = await this.materialRepo.findAllByTopicId(
         title,
         topicId,

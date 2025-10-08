@@ -1,0 +1,30 @@
+POST http://localhost:5000/v1/api/assignments
+Content-Type: application/json
+{
+    "topicId": 17,
+    "materialId": 10,
+    "userId": 7,
+    "trainingDate": "2025-12-31",
+    "startTime": "09:00:00",
+    "endTime": "17:00:00",
+    "maxParticipant": 50,
+    "classRoomLink": "https://meet.google.com/xxx-xxx-xxx",
+    "status": "DRAFT"
+  }
+
+
+###
+
+POST http://localhost:5000/v1/api/assignments
+Content-Type: application/json
+{
+    "topicId": 17,
+    "materialId": 10,
+    "userId": 7,
+    "trainingDate": "2025-10-10",
+    "startTime": "10:00:00",
+    "endTime": "11:00:00",
+    "maxParticipant": 50,
+    "classRoomLink": "https://meet.google.com/xxx-xxx-xxx",
+    "status": "DRAFT"
+  }

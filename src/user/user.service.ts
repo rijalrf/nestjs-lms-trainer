@@ -63,13 +63,7 @@ export class UserService {
     limit: number,
   ): Promise<UserResponseDTOwithPagination> {
     const totalItems = await this.userRepo.count();
-    const totalPages = Math.ceil(totalItems / limit);
-
-    const pagination = new Pagination();
-    pagination.currentPage = page;
-    pagination.perPage = limit;
-    pagination.totalItems = totalItems;
-    pagination.totalPages = totalPages;
+    const pagination = new Pagination(page, limit, totalItems);
 
     try {
       const users = await this.userRepo.findAll(page, limit);

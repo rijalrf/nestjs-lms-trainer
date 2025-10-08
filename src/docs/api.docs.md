@@ -695,8 +695,8 @@
   "materialId": 1,
   "userId": 1,
   "trainingDate": "2025-12-31",
-  "startTime": "09:00:00",
-  "endTime": "17:00:00",
+  "startTime": "09:00",
+  "endTime": "17:00",
   "maxParticipant": 50,
   "classRoomLink": "https://meet.google.com/xxx-xxx-xxx",
   "status": "DRAFT"
@@ -716,8 +716,8 @@
     "materialId": 1,
     "userId": 1,
     "trainingDate": "2025-12-31",
-    "startTime": "09:00:00",
-    "endTime": "17:00:00",
+    "startTime": "09:00",
+    "endTime": "17:00",
     "maxParticipant": 50,
     "classRoomLink": "https://meet.google.com/xxx-xxx-xxx",
     "status": "DRAFT"

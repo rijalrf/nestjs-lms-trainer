@@ -61,13 +61,7 @@ export class TopicService {
   ): Promise<TopicResponseDTOwithPagination> {
     const skip = (page - 1) * limit;
     const totalItems = await this.topicRepo.count();
-    const totalPages = Math.ceil(totalItems / limit);
-
-    const pagination = new Pagination();
-    pagination.currentPage = page;
-    pagination.perPage = limit;
-    pagination.totalItems = totalItems;
-    pagination.totalPages = totalPages;
+    const pagination = new Pagination(page, limit, totalItems);
     try {
       const topics = await this.topicRepo.findAll(title, skip, limit);
       return TopicResponseDTOwithPagination.set(topics, pagination);
