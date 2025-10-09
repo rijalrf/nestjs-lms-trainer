@@ -711,16 +711,30 @@
   "code": 201,
   "message": "Assignment created successfully",
   "data": {
-    "id": 1,
-    "topicId": 1,
-    "materialId": 1,
-    "userId": 1,
-    "trainingDate": "2025-12-31",
-    "startTime": "09:00",
-    "endTime": "17:00",
+    "id": 32,
+    "trainingDate": "2025-10-10",
+    "startTime": "10.00",
+    "endTime": "11.00",
     "maxParticipant": 50,
     "classRoomLink": "https://meet.google.com/xxx-xxx-xxx",
-    "status": "DRAFT"
+    "status": "DRAFT",
+    "trainer": {
+      "id": 7,
+      "name": "Rijal Rifai",
+      "email": "rijal@ppu.co.id"
+    },
+    "topic": {
+      "id": 17,
+      "title": "Voluptatem Consequa update",
+      "description": "Nemo duis aliqua Fu updated"
+    },
+    "material": {
+      "id": 10,
+      "title": "Dolor beatae cumque ",
+      "description": "Eos reprehenderit re",
+      "topicId": 17,
+      "fileUrl": "https://coinmarketcap.com/currencies/bitcoin/"
+    }
   }
 }
 ```
@@ -770,16 +784,30 @@
   "code": 200,
   "message": "Assignment updated successfully",
   "data": {
-    "id": 1,
-    "topicId": 1,
-    "materialId": 1,
-    "userId": 1,
-    "trainingDate": "2025-12-31",
-    "startTime": "09:00:00",
-    "endTime": "17:00:00",
+    "id": 2,
+    "trainingDate": "2025-10-10",
+    "startTime": "10.00",
+    "endTime": "12.00",
     "maxParticipant": 50,
-    "classRoomLink": "https://meet.google.com/xxx-xxx-xxx",
-    "status": "PUBLISH"
+    "classRoomLink": "https://meet.google.com/xxx-xxx-xxx updated",
+    "status": "DRAFT",
+    "trainer": {
+      "id": 7,
+      "name": "Rijal Rifai",
+      "email": "rijal@ppu.co.id"
+    },
+    "topic": {
+      "id": 17,
+      "title": "Voluptatem Consequa update",
+      "description": "Nemo duis aliqua Fu updated"
+    },
+    "material": {
+      "id": 10,
+      "title": "Dolor beatae cumque ",
+      "description": "Eos reprehenderit re",
+      "topicId": 17,
+      "fileUrl": "https://coinmarketcap.com/currencies/bitcoin/"
+    }
   }
 }
 ```
@@ -812,28 +840,94 @@
 
 ```json
 {
-  "code": 200,
   "success": true,
+  "code": 200,
   "message": "Success get all assignments",
   "data": [
     {
-      "id": 1,
-      "topicId": 1,
-      "materialId": 1,
-      "userId": 1,
-      "trainingDate": "2025-12-31",
-      "startTime": "09:00:00",
-      "endTime": "17:00:00",
+      "id": 2,
+      "trainingDate": "2025-10-10",
+      "startTime": "10.00",
+      "endTime": "12.00",
+      "maxParticipant": 50,
+      "classRoomLink": "https://meet.google.com/xxx-xxx-xxx updated",
+      "status": "DRAFT",
+      "trainer": {
+        "id": 7,
+        "name": "Rijal Rifai",
+        "email": "rijal@ppu.co.id"
+      },
+      "topic": {
+        "id": 17,
+        "title": "Voluptatem Consequa update",
+        "description": "Nemo duis aliqua Fu updated"
+      },
+      "material": {
+        "id": 10,
+        "title": "Dolor beatae cumque ",
+        "description": "Eos reprehenderit re",
+        "topicId": 17,
+        "fileUrl": "https://coinmarketcap.com/currencies/bitcoin/"
+      }
+    },
+    {
+      "id": 3,
+      "trainingDate": "2025-12-20",
+      "startTime": "16.00",
+      "endTime": "17.00",
       "maxParticipant": 50,
       "classRoomLink": "https://meet.google.com/xxx-xxx-xxx",
-      "status": "DRAFT"
+      "status": "DRAFT",
+      "trainer": {
+        "id": 7,
+        "name": "Rijal Rifai",
+        "email": "rijal@ppu.co.id"
+      },
+      "topic": {
+        "id": 17,
+        "title": "Voluptatem Consequa update",
+        "description": "Nemo duis aliqua Fu updated"
+      },
+      "material": {
+        "id": 8,
+        "title": "Repellendus Vitae c",
+        "description": "Commodi deleniti acc",
+        "topicId": 17,
+        "fileUrl": "https://coinmarketcap.com/currencies/bitcoin/"
+      }
+    },
+    {
+      "id": 4,
+      "trainingDate": "2025-12-20",
+      "startTime": "16.00",
+      "endTime": "17.00",
+      "maxParticipant": 50,
+      "classRoomLink": "https://meet.google.com/xxx-xxx-xxx",
+      "status": "DRAFT",
+      "trainer": {
+        "id": 7,
+        "name": "Rijal Rifai",
+        "email": "rijal@ppu.co.id"
+      },
+      "topic": {
+        "id": 17,
+        "title": "Voluptatem Consequa update",
+        "description": "Nemo duis aliqua Fu updated"
+      },
+      "material": {
+        "id": 7,
+        "title": "Ex architecto conseq",
+        "description": "Eum numquam quibusda",
+        "topicId": 17,
+        "fileUrl": "https://coinmarketcap.com/currencies/bitcoin/"
+      }
     }
   ],
   "pagination": {
     "currentPage": 1,
-    "perPage": 10,
-    "totalItems": 1,
-    "totalPages": 1
+    "perPage": 3,
+    "totalItems": 31,
+    "totalPages": 11
   }
 }
 ```
@@ -851,16 +945,30 @@
   "code": 200,
   "message": "Success get assignment by id",
   "data": {
-    "id": 1,
-    "topicId": 1,
-    "materialId": 1,
-    "userId": 1,
-    "trainingDate": "2025-12-31",
-    "startTime": "09:00:00",
-    "endTime": "17:00:00",
+    "id": 2,
+    "trainingDate": "2025-10-10",
+    "startTime": "10.00",
+    "endTime": "12.00",
     "maxParticipant": 50,
-    "classRoomLink": "https://meet.google.com/xxx-xxx-xxx",
-    "status": "DRAFT"
+    "classRoomLink": "https://meet.google.com/xxx-xxx-xxx updated",
+    "status": "DRAFT",
+    "trainer": {
+      "id": 7,
+      "name": "Rijal Rifai",
+      "email": "rijal@ppu.co.id"
+    },
+    "topic": {
+      "id": 17,
+      "title": "Voluptatem Consequa update",
+      "description": "Nemo duis aliqua Fu updated"
+    },
+    "material": {
+      "id": 10,
+      "title": "Dolor beatae cumque ",
+      "description": "Eos reprehenderit re",
+      "topicId": 17,
+      "fileUrl": "https://coinmarketcap.com/currencies/bitcoin/"
+    }
   }
 }
 ```
@@ -887,7 +995,7 @@
 {
   "success": true,
   "code": 200,
-  "message": "Success delete assignment by id"
+  "message": "Success delete assignment"
 }
 ```
 

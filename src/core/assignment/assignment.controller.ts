@@ -18,12 +18,14 @@ import { ZBody } from 'src/common/decorator/zod.decorator';
 import { AssignmentValidation } from './assignment.validation';
 import { Auth } from 'src/auth/auth.decorator';
 import { UserResponseDTO } from 'src/user/user.dto';
+import { Message } from 'src/common/decorator/message.decorator';
 
 @Controller('v1/api/assignments')
 export class AssignmentController {
   constructor(private readonly assignmentService: AssignmentService) {}
 
   @Post()
+  @Message('Assignment created successfully')
   async create(
     @ZBody(AssignmentValidation.CREATEUPDATE) request: AssignmentRequestDTO,
     @Auth() user: UserResponseDTO,
@@ -32,6 +34,7 @@ export class AssignmentController {
   }
 
   @Put(':id')
+  @Message('Assignment updated successfully')
   async update(
     @Param('id', ParseIntPipe) id: number,
     @ZBody(AssignmentValidation.CREATEUPDATE) request: AssignmentRequestDTO,
@@ -41,6 +44,7 @@ export class AssignmentController {
   }
 
   @Get()
+  @Message('Success get all assignments')
   async getAll(
     @Query('page', ParseIntPipe) page: number,
     @Query('limit', ParseIntPipe) limit: number,
@@ -49,6 +53,7 @@ export class AssignmentController {
   }
 
   @Get(':id')
+  @Message('Success get assignment by id')
   async getById(
     @Param('id', ParseIntPipe) id: number,
   ): Promise<AssignmentResponseDTO> {
@@ -56,6 +61,7 @@ export class AssignmentController {
   }
 
   @Delete(':id')
+  @Message('Success delete assignment')
   async delete(@Param('id', ParseIntPipe) id: number): Promise<void> {
     return this.assignmentService.delete(id);
   }

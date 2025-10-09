@@ -5,8 +5,8 @@ import {
   AssignmentResponseDTO,
   AssignmentResponseWithPaginationDTO,
 } from './assignment.dto';
-import { Pagination } from 'src/common/dto/pagination.dto';
 import { toTimeOnly } from 'src/common/datetime.helper';
+import { Pagination } from 'src/common/dto/pagination.dto';
 
 @Injectable()
 export class AssignmentService {
@@ -20,7 +20,7 @@ export class AssignmentService {
     request.endTime = toTimeOnly(request.endTime);
     try {
       const assignment = await this.assignmentRepo.create(request, userId);
-      return AssignmentResponseDTO.fromEntity(assignment);
+      return assignment;
     } catch (error) {
       console.log(error);
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
@@ -32,9 +32,11 @@ export class AssignmentService {
     request: AssignmentRequestDTO,
     userId: number,
   ): Promise<AssignmentResponseDTO> {
+    request.startTime = toTimeOnly(request.startTime);
+    request.endTime = toTimeOnly(request.endTime);
     try {
       const assignment = await this.assignmentRepo.update(id, request, userId);
-      return AssignmentResponseDTO.fromEntity(assignment);
+      return assignment;
     } catch (error) {
       console.log(error);
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
@@ -47,8 +49,8 @@ export class AssignmentService {
   ): Promise<AssignmentResponseWithPaginationDTO> {
     const skip = (page - 1) * limit;
     const take = limit;
+    const count = await this.assignmentRepo.count();
     try {
-      const count = await this.assignmentRepo.count();
       const assignments = await this.assignmentRepo.getAll(skip, take);
       return AssignmentResponseWithPaginationDTO.set(
         assignments,
@@ -66,7 +68,7 @@ export class AssignmentService {
       if (!data) {
         throw new HttpException('Assignment not found', HttpStatus.NOT_FOUND);
       }
-      return AssignmentResponseDTO.fromEntity(data);
+      return data;
     } catch (error) {
       console.log(error);
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
