@@ -713,7 +713,7 @@
   "data": {
     "id": 32,
     "trainingDate": "2025-10-10",
-    "startTime": "10.00",
+    "startTime": "10:00",
     "endTime": "11.00",
     "maxParticipant": 50,
     "classRoomLink": "https://meet.google.com/xxx-xxx-xxx",
@@ -786,11 +786,76 @@
   "data": {
     "id": 2,
     "trainingDate": "2025-10-10",
-    "startTime": "10.00",
-    "endTime": "12.00",
+    "startTime": "10:00",
+    "endTime": "12:00",
     "maxParticipant": 50,
     "classRoomLink": "https://meet.google.com/xxx-xxx-xxx updated",
     "status": "DRAFT",
+    "trainer": {
+      "id": 7,
+      "name": "Rijal Rifai",
+      "email": "rijal@ppu.co.id"
+    },
+    "topic": {
+      "id": 17,
+      "title": "Voluptatem Consequa update",
+      "description": "Nemo duis aliqua Fu updated"
+    },
+    "material": {
+      "id": 10,
+      "title": "Dolor beatae cumque ",
+      "description": "Eos reprehenderit re",
+      "topicId": 17,
+      "fileUrl": "https://coinmarketcap.com/currencies/bitcoin/"
+    }
+  }
+}
+```
+
+**Error Responses:**
+
+```json
+{
+  "success": false,
+  "code": 400,
+  "message": "Validation failed",
+  "errors": [
+    {
+      "field": "topicId",
+      "error": "topicId is required"
+    }
+  ]
+}
+```
+
+### Update Status Assignment
+
+- URL: `v1/api/assignments/:id/status`
+- Method: `PATCH`
+
+**Request Body:**
+
+```json
+{
+  "status": "PUBLISH"
+}
+```
+
+**Response (200 OK):**
+
+```json
+{
+  "success": true,
+  "code": 200,
+  "message": "Assignment updated successfully",
+  "data": {
+    "id": 2,
+    "trainingDate": "2025-10-10",
+    "startTime": "10:00",
+    "endTime": "12:00",
+    "maxParticipant": 50,
+    "classRoomLink": "https://meet.google.com/xxx-xxx-xxx updated",
+    "status": "PUBLISH",
     "trainer": {
       "id": 7,
       "name": "Rijal Rifai",
@@ -835,6 +900,7 @@
 - Query Params:
   - `page`: number (optional, default: 1)
   - `limit`: number (optional, default: 10)
+  - `status`: string (optional, filter by status)
 
 **Response (200 OK):**
 
@@ -847,8 +913,8 @@
     {
       "id": 2,
       "trainingDate": "2025-10-10",
-      "startTime": "10.00",
-      "endTime": "12.00",
+      "startTime": "10:00",
+      "endTime": "12:00",
       "maxParticipant": 50,
       "classRoomLink": "https://meet.google.com/xxx-xxx-xxx updated",
       "status": "DRAFT",
@@ -947,8 +1013,8 @@
   "data": {
     "id": 2,
     "trainingDate": "2025-10-10",
-    "startTime": "10.00",
-    "endTime": "12.00",
+    "startTime": "10:00",
+    "endTime": "12:00",
     "maxParticipant": 50,
     "classRoomLink": "https://meet.google.com/xxx-xxx-xxx updated",
     "status": "DRAFT",

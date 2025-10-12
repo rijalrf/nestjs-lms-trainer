@@ -8,7 +8,7 @@ import { CommonModule } from './common/common.module';
 import { CoreModule } from './core/core.module';
 
 @Module({
-  imports: [UserModule, PrismaModule, AuthModule, CommonModule, CoreModule],
+  imports: [UserModule, PrismaModule, CommonModule, CoreModule, AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })

@@ -7,13 +7,13 @@ import {
 import { UserRepository } from './user.repo';
 import { Pagination } from 'src/common/dto/pagination.dto';
 import { HashService } from 'src/helper/hash/hash.service';
-import { User } from '@prisma/client';
+import type { User } from '@prisma/client';
 
 @Injectable()
 export class UserService {
   constructor(
     private readonly userRepo: UserRepository,
-    private readonly hashService: HashService,
+    private readonly hashService: HashService, // Add LoggerService to the constructor
   ) {}
 
   async register(request: UserRequestDTO): Promise<UserResponseDTO> {
@@ -28,7 +28,8 @@ export class UserService {
       const user = await this.userRepo.create(request);
       return UserResponseDTO.fromEntity(user);
     } catch (error) {
-      console.error(error);
+      console.log(error);
+
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
@@ -44,7 +45,7 @@ export class UserService {
       const user = await this.userRepo.update(id, request);
       return UserResponseDTO.fromEntity(user);
     } catch (error) {
-      console.error(error);
+      console.log(error);
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
@@ -53,7 +54,7 @@ export class UserService {
     try {
       await this.userRepo.delete(id);
     } catch (error) {
-      console.error(error);
+      console.log(error);
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
@@ -69,7 +70,7 @@ export class UserService {
       const users = await this.userRepo.findAll(page, limit);
       return UserResponseDTOwithPagination.set(users, pagination);
     } catch (error) {
-      console.error(error);
+      console.log(error);
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
@@ -82,7 +83,7 @@ export class UserService {
       }
       return UserResponseDTO.fromEntity(user);
     } catch (error) {
-      console.error(error);
+      console.log(error);
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
@@ -107,7 +108,7 @@ export class UserService {
       }
       return UserResponseDTO.fromEntity(user);
     } catch (error) {
-      console.error(error);
+      console.log(error);
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
@@ -116,7 +117,7 @@ export class UserService {
     try {
       await this.userRepo.updateUserToken(id, token);
     } catch (error) {
-      console.error(error);
+      console.log(error);
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
@@ -129,7 +130,7 @@ export class UserService {
       }
       return UserResponseDTO.fromEntity(user);
     } catch (error) {
-      console.error(error);
+      console.log(error);
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
@@ -138,7 +139,7 @@ export class UserService {
     try {
       await this.userRepo.clearTokenById(id);
     } catch (error) {
-      console.error(error);
+      console.log(error);
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }

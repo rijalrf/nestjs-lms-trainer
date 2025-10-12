@@ -1,4 +1,4 @@
-POST http://localhost:5000/v1/api/assignments
+POST http://localhost:5000/api/v1/assignments
 Content-Type: application/json
 {
     "topicId": 17,
@@ -14,8 +14,7 @@ Content-Type: application/json
 
 
 ###
-
-POST http://localhost:5000/v1/api/assignments
+POST http://localhost:5000/api/v1/assignments
 Content-Type: application/json
 {
     "topicId": 17,
@@ -28,3 +27,25 @@ Content-Type: application/json
     "classRoomLink": "https://meet.google.com/xxx-xxx-xxx",
     "status": "DRAFT"
   }
+
+###
+PATCH http://localhost:5000/api/v1/assignments/2/status
+Content-Type: application/json
+{
+    "status": "PUBLISH"
+  }
+
+
+###
+GET http://localhost:5000/api/v1/assignments?page=1&limit=10&status=FINISH
+Content-Type: application/json
+
+###
+GET http://localhost:5000/api/v1/assignments/trainer/populars
+Content-Type: application/json
+
+
+
+###
+GET http://localhost:5000/api/v1/assignments/count/status?status=PUBLISH
+Content-Type: application/json

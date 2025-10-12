@@ -4,6 +4,7 @@ import {
   MaterialRequestDTO,
   MaterialResponseDTO,
   MaterialResponseDTOwithPagination,
+  MaterialsPopularResponseDTO,
 } from './material.dto';
 import { Pagination } from 'src/common/dto/pagination.dto';
 import { TopicRepositoy } from '../topic/topic.repo';
@@ -22,11 +23,13 @@ export class MaterialService {
     try {
       const topic = await this.topic.findById(request.topicId);
       if (!topic) {
+        console.log('Material not found');
         throw new HttpException('Topic not found', HttpStatus.NOT_FOUND);
       }
       const data = await this.materialRepo.create(request, userId);
       return MaterialResponseDTO.fromEntity(data);
     } catch (error) {
+      console.log(error);
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
@@ -41,6 +44,7 @@ export class MaterialService {
       return MaterialResponseDTO.fromEntity(data);
     } catch (error) {
       console.log(error);
+      console.log(error);
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
@@ -49,6 +53,7 @@ export class MaterialService {
     try {
       await this.materialRepo.delete(id);
     } catch (error) {
+      console.log(error);
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
@@ -57,10 +62,12 @@ export class MaterialService {
     try {
       const data = await this.materialRepo.findById(id);
       if (!data) {
+        console.log('Material not found');
         throw new HttpException('Material not found', HttpStatus.NOT_FOUND);
       }
       return MaterialResponseDTO.fromEntity(data);
     } catch (error) {
+      console.log(error);
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
@@ -74,7 +81,7 @@ export class MaterialService {
     try {
       const skip = (page - 1) * limit;
       const take = limit;
-      const totalItems = await this.materialRepo.count(topicId);
+      const totalItems = await this.materialRepo.countByTopic(topicId);
       const pagination = new Pagination(page, limit, totalItems);
       const data = await this.materialRepo.findAllByTopicId(
         title,
@@ -84,6 +91,32 @@ export class MaterialService {
       );
       return MaterialResponseDTOwithPagination.set(data, pagination);
     } catch (error) {
+      console.log(error);
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async countByTopic(topicId: number): Promise<number> {
+    const count = await this.materialRepo.countByTopic(topicId);
+    return count;
+  }
+
+  async countAll(): Promise<number> {
+    try {
+      const count = await this.materialRepo.countAll();
+      return count;
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async findMaterialPopular(): Promise<MaterialsPopularResponseDTO[]> {
+    try {
+      const data = await this.materialRepo.findMaterialPopular();
+      return MaterialsPopularResponseDTO.set(data);
+    } catch (error) {
+      console.log(error);
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }

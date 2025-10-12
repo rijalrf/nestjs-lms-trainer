@@ -1,10 +1,12 @@
-export function toDateOnly(dateStr: string) {
+export function toDateOnly(dateStr: string | Date) {
   // "2025-10-12" -> Date di JS (jam diabaikan saat simpan @db.Date)
-  return `${dateStr}T00:00:00`;
+  const date = `${dateStr}T00:00:00`;
+  return new Date(date);
 }
-export function toTimeOnly(hhmm: string) {
+export function toTimeOnly(hhmm: string | Date) {
   // "09:00" -> Date, jam-menit dipakai saat simpan @db.Time
-  return `1970-01-01T${hhmm}:00`;
+  const time = `1970-01-01T${hhmm}:00`;
+  return new Date(time);
 }
 
 export function toTimeLocal(date: any) {
@@ -17,7 +19,7 @@ export function toTimeLocal(date: any) {
     minute: '2-digit' as const,
     hour12: false, // Gunakan format 24 jam
   };
-  return new Intl.DateTimeFormat('id-ID', opsiFormat).format(date);
+  return new Intl.DateTimeFormat('en-GB', opsiFormat).format(date);
 }
 
 export function toDateLocal(date: any) {

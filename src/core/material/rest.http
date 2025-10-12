@@ -1,4 +1,4 @@
-POST http://localhost:5000/v1/api/materials
+POST http://localhost:5000/api/v1/materials
 Content-Type: application/json
 
 {
@@ -9,7 +9,7 @@ Content-Type: application/json
 }
 
 ###
-PUT http://localhost:5000/v1/api/materials/2
+PUT http://localhost:5000/api/v1/materials/2
 Content-Type: application/json
 
 {
@@ -20,14 +20,22 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:5000/v1/api/materials/topic/9?page=1&limit=10
+GET http://localhost:5000/api/v1/materials/topic/9?page=1&limit=10
 Content-Type: application/json
 
 ###
-GET http://localhost:5000/v1/api/materials/2
+GET http://localhost:5000/api/v1/materials/2
 Content-Type: application/json
 
 
 ###
-DELETE http://localhost:5000/v1/api/materials/1
+DELETE http://localhost:5000/api/v1/materials/1
+Content-Type: application/json
+
+###
+GET http://localhost:5000/api/v1/materials/count
+Content-Type: application/json
+
+###
+GET http://localhost:5000/api/v1/materials/material/populars
 Content-Type: application/json

@@ -4,9 +4,9 @@ import {
   TopicResponseDTO,
   TopicRequestDTO,
   TopicResponseDTOwithPagination,
+  TopicPopularResponseDTO,
 } from './topic.dto';
 import { Pagination } from 'src/common/dto/pagination.dto';
-import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class TopicService {
@@ -20,6 +20,7 @@ export class TopicService {
       const topic = await this.topicRepo.create(request, sessionUserId);
       return TopicResponseDTO.fromEntity(topic);
     } catch (error) {
+      console.log(error);
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
@@ -33,6 +34,7 @@ export class TopicService {
       const topic = await this.topicRepo.update(id, request, sessionUserId);
       return TopicResponseDTO.fromEntity(topic);
     } catch (error) {
+      console.log(error);
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
@@ -41,15 +43,7 @@ export class TopicService {
     try {
       await this.topicRepo.delete(id);
     } catch (error) {
-      if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        // Kode 'P2003' spesifik untuk foreign key constraint violation
-        if (error.code === 'P2003') {
-          throw new HttpException(
-            'Gagal menghapus topik. Topik ini masih digunakan oleh data lain.',
-            HttpStatus.CONFLICT,
-          );
-        }
-      }
+      console.log(error);
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
@@ -67,6 +61,7 @@ export class TopicService {
       return TopicResponseDTOwithPagination.set(topics, pagination);
     } catch (error) {
       console.error(error);
+      console.log(error);
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
@@ -75,10 +70,22 @@ export class TopicService {
     try {
       const topic = await this.topicRepo.findById(id);
       if (!topic) {
+        console.log('Topic not found');
         throw new HttpException('Topic not found', HttpStatus.NOT_FOUND);
       }
       return TopicResponseDTO.fromEntity(topic);
     } catch (error) {
+      console.log(error);
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async findTopicPopular(): Promise<TopicPopularResponseDTO[]> {
+    try {
+      const topicPopulars = await this.topicRepo.findTopicPopular();
+      return TopicPopularResponseDTO.set(topicPopulars);
+    } catch (error) {
+      console.log(error);
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }

@@ -10,30 +10,34 @@ import {
 } from '@nestjs/common';
 import { MaterialService } from './material.service';
 import { ZBody } from 'src/common/decorator/zod.decorator';
-import { MaterialRequestDTO, MaterialResponseDTO } from './material.dto';
-import { Auth } from 'src/auth/auth.decorator';
+import {
+  MaterialRequestDTO,
+  MaterialResponseDTO,
+  MaterialsPopularResponseDTO,
+} from './material.dto';
+import { AuthUser } from 'src/auth/auth.decorator';
 import { UserResponseDTO } from 'src/user/user.dto';
 import { Message } from 'src/common/decorator/message.decorator';
 import { MaterialValidation } from './material.validation';
 
-@Controller('/v1/api/materials')
+@Controller('materials')
 export class MaterialController {
   constructor(private readonly materialService: MaterialService) {}
 
   @Post()
   @Message('Material created successfully')
   async create(
-    @Auth() user: UserResponseDTO,
+    @AuthUser() user: UserResponseDTO,
     @ZBody(MaterialValidation.CREATEUPDATE) request: MaterialRequestDTO,
   ): Promise<MaterialResponseDTO> {
     const data = await this.materialService.create(request, user.id);
     return data;
   }
 
-  @Put('/:id')
+  @Put(':id')
   @Message('Material updated successfully')
   async update(
-    @Auth() user: UserResponseDTO,
+    @AuthUser() user: UserResponseDTO,
     @Param('id', ParseIntPipe) id: number,
     @ZBody(MaterialValidation.CREATEUPDATE) request: MaterialRequestDTO,
   ): Promise<MaterialResponseDTO> {
@@ -41,13 +45,20 @@ export class MaterialController {
     return data;
   }
 
-  @Delete('/:id')
+  @Delete(':id')
   @Message('Material deleted successfully')
   async delete(@Param('id', ParseIntPipe) id: number): Promise<void> {
     await this.materialService.delete(id);
   }
 
-  @Get('/:id')
+  @Get('material/populars')
+  @Message('Materials popular retrieved successfully')
+  async findMaterialPopular(): Promise<MaterialsPopularResponseDTO[]> {
+    const data = await this.materialService.findMaterialPopular();
+    return data;
+  }
+
+  @Get(':id')
   @Message('Material retrieved successfully')
   async findById(
     @Param('id', ParseIntPipe) id: number,
@@ -56,10 +67,10 @@ export class MaterialController {
     return data;
   }
 
-  @Get('/topic/:topicId')
+  @Get('topic/:topicId')
   @Message('Materials by topic retrieved successfully')
   async findAllByTopicId(
-    @Query('search') title: string | '',
+    @Query('title') title: string | '',
     @Param('topicId', ParseIntPipe) topicId: number,
     @Query('page', ParseIntPipe) page: number,
     @Query('limit', ParseIntPipe) limit: number,
@@ -70,6 +81,13 @@ export class MaterialController {
       page,
       limit,
     );
+    return data;
+  }
+
+  @Get('count')
+  @Message('Materials retrieved count successfully')
+  async count(): Promise<number> {
+    const data = await this.materialService.countAll();
     return data;
   }
 }

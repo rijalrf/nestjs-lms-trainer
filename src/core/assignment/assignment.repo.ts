@@ -1,127 +1,135 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { AssignmentRequestDTO, AssignmentResponseDTO } from './assignment.dto';
-import { Assignment } from '@prisma/client';
+import {
+  AssignmentEntity,
+  AssignmentFullEntity,
+  AssignmentStatusEnum,
+  querySelects,
+} from './assignment.entity';
+import {
+  QUERY_FIND_TOP_TRAINERS,
+  QueryFindTopTrainers,
+} from './assignment.queries';
 
 @Injectable()
 export class AssignmentReposity {
   constructor(private readonly db: PrismaService) {}
 
   async create(
-    request: AssignmentRequestDTO,
+    request: AssignmentEntity,
     userId: number,
-  ): Promise<AssignmentResponseDTO> {
-    const assignment = await this.db.assignment.create({
-      data: {
-        topicId: request.topicId,
-        materialId: request.materialId,
-        userId: request.userId,
-
-        trainingDate: new Date(request.trainingDate),
-        startTime: new Date(request.startTime),
-        endTime: new Date(request.endTime),
-
-        maxParticipant: request.maxParticipant,
-        classRoomLink: request.classRoomLink,
-        status: request.status,
-        createdBy: userId,
-      },
+  ): Promise<AssignmentFullEntity> {
+    const newData = {
+      ...request,
+      createdBy: userId,
+    };
+    const data = await this.db.assignment.create({
+      data: newData,
       include: {
-        topic: true,
-        material: true,
-        trainerUser: true,
+        topic: { select: querySelects.topic },
+        material: { select: querySelects.material },
+        trainerUser: { select: querySelects.trainer },
       },
     });
-    return AssignmentResponseDTO.fromEntity(
-      assignment,
-      assignment.trainerUser,
-      assignment.topic,
-      assignment.material,
-    );
+    return data;
   }
 
   async update(
     id: number,
-    request: AssignmentRequestDTO,
+    request: AssignmentEntity,
     userId: number,
-  ): Promise<AssignmentResponseDTO> {
+  ): Promise<AssignmentFullEntity> {
+    const updateData = {
+      ...request,
+      updatedBy: userId,
+    };
+    const data = await this.db.assignment.update({
+      where: { id },
+      data: updateData,
+      include: {
+        topic: { select: querySelects.topic },
+        material: { select: querySelects.material },
+        trainerUser: { select: querySelects.trainer },
+      },
+    });
+    return data;
+  }
+
+  async updateStatus(
+    id: number,
+    status: AssignmentStatusEnum,
+    userId: number,
+  ): Promise<AssignmentFullEntity> {
     const assignment = await this.db.assignment.update({
       where: { id },
       data: {
-        topicId: request.topicId,
-        materialId: request.materialId,
-        userId: request.userId,
-
-        trainingDate: new Date(request.trainingDate),
-        startTime: new Date(request.startTime),
-        endTime: new Date(request.endTime),
-
-        maxParticipant: request.maxParticipant,
-        classRoomLink: request.classRoomLink,
-        status: request.status,
+        status: status,
         updatedBy: userId,
       },
       include: {
-        topic: true,
-        material: true,
-        trainerUser: true,
+        topic: { select: querySelects.topic },
+        material: { select: querySelects.material },
+        trainerUser: { select: querySelects.trainer },
       },
     });
-    return AssignmentResponseDTO.fromEntity(
-      assignment,
-      assignment.trainerUser,
-      assignment.topic,
-      assignment.material,
-    );
+    return assignment;
   }
 
-  async getAll(skip: number, take: number): Promise<AssignmentResponseDTO[]> {
-    const assignments = await this.db.assignment.findMany({
+  async getAll(
+    skip: number,
+    take: number,
+    status: AssignmentStatusEnum,
+  ): Promise<AssignmentFullEntity[]> {
+    const data = await this.db.assignment.findMany({
       skip,
       take,
+      where: {
+        status: status,
+      },
       include: {
-        topic: true,
-        material: true,
-        trainerUser: true,
+        topic: { select: querySelects.topic },
+        material: { select: querySelects.material },
+        trainerUser: { select: querySelects.trainer },
       },
     });
-    return assignments.map((assignment) => {
-      return AssignmentResponseDTO.fromEntity(
-        assignment,
-        assignment.trainerUser,
-        assignment.topic,
-        assignment.material,
-      );
-    });
+    return data;
   }
 
-  async getById(id: number): Promise<AssignmentResponseDTO | null> {
-    const assignment = await this.db.assignment.findUnique({
+  async getById(id: number): Promise<AssignmentFullEntity | null> {
+    const data = await this.db.assignment.findUnique({
       where: { id },
       include: {
-        topic: true,
-        material: true,
-        trainerUser: true,
+        topic: { select: querySelects.topic },
+        material: { select: querySelects.material },
+        trainerUser: { select: querySelects.trainer },
       },
     });
-    if (assignment) {
-      return AssignmentResponseDTO.fromEntity(
-        assignment,
-        assignment.trainerUser,
-        assignment.topic,
-        assignment.material,
-      );
-    }
-    return null;
+    return data;
   }
 
-  async delete(id: number): Promise<Assignment> {
-    const assignment = await this.db.assignment.delete({ where: { id } });
-    return assignment;
+  async delete(id: number): Promise<void> {
+    await this.db.assignment.delete({ where: { id } });
   }
 
   async count(): Promise<number> {
     const count = await this.db.assignment.count();
     return count;
+  }
+
+  async countByStatus(status: AssignmentStatusEnum): Promise<number> {
+    console.log({status});
+    const count = await this.db.assignment.count({
+      where: {
+        status : status,
+      },
+    });
+    return count;
+  }
+
+  async topTrainer(): Promise<QueryFindTopTrainers[]> {
+    const result = await this.db.$queryRaw<QueryFindTopTrainers[]>(
+      QUERY_FIND_TOP_TRAINERS,
+    );
+    return result;
   }
 }

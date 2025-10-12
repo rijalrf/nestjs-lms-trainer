@@ -1,88 +1,84 @@
-import {
-  Assignment,
-  Material,
-  StatusAssignment,
-  Topic,
-  User,
-} from '@prisma/client';
-import { toDateLocal, toTimeLocal } from 'src/common/datetime.helper';
 import { Pagination } from 'src/common/dto/pagination.dto';
-import { TopicResponseDTO } from '../topic/topic.dto';
-import { MaterialResponseDTO } from '../material/material.dto';
+import {
+  AssignmentFullEntity,
+  AssignmentStatusEnum,
+  TrainerEntity,
+  TrainerPopularEntity,
+} from './assignment.entity';
+import { TopicEntity } from '../topic/topic.entity';
+import { MaterialEntity } from '../material/material.entity';
+
 
 export class AssignmentRequestDTO {
+  id: number;
   topicId: number;
   materialId: number;
   userId: number;
-  trainingDate: string;
-  startTime: string;
-  endTime: string;
+  trainingDate: Date;
+  startTime: Date;
+  endTime: Date;
   maxParticipant: number;
   classRoomLink: string;
-  status: StatusAssignment;
+  status: AssignmentStatusEnum;
 }
 
-export class UserTrainerResponseDTO {
-  id: number;
-  name: string;
-  email: string;
+export class AssignmentResponseCountStatusDTO {
+  status: string;
+  count: number;
 
-  constructor(user: User) {
-    this.id = user.id;
-    this.name = user.name;
-    this.email = user.email;
+  constructor(status: string, count: number) {
+    this.status = status;
+    this.count = count;
   }
-  static fromEntity(user: User) {
-    return new UserTrainerResponseDTO(user);
+  static set(status: string, count: number) {
+    return new AssignmentResponseCountStatusDTO(status, count);
+  }
+}
+
+export class AssignmentResponseTopTrainerDTO {
+  trainer: TrainerEntity;
+  countAssignment: number;
+
+  constructor(topTrainer: TrainerPopularEntity) {
+    this.trainer = topTrainer.trainer;
+    this.countAssignment = Number(topTrainer.countAssignment);
+  }
+  static set(trainer: TrainerPopularEntity[]) {
+    return trainer.map((item) => new AssignmentResponseTopTrainerDTO(item));
   }
 }
 
 export class AssignmentResponseDTO {
   id: number;
-  trainingDate: string;
-  startTime: string;
-  endTime: string;
+  trainingDate: Date;
+  startTime: Date;
+  endTime: Date;
   maxParticipant: number;
   classRoomLink: string;
-  status: StatusAssignment;
-  trainer: UserTrainerResponseDTO;
-  topic: TopicResponseDTO;
-  material: MaterialResponseDTO;
+  status: AssignmentStatusEnum;
+  trainer: TrainerEntity;
+  topic: TopicEntity;
+  material: MaterialEntity;
 
-  constructor(
-    assignment: Assignment,
-    trainer: User,
-    topic: Topic,
-    material: Material,
-  ) {
+  constructor(assignment: AssignmentFullEntity) {
     this.id = assignment.id;
-    this.trainingDate = toDateLocal(assignment.trainingDate);
-    this.startTime = toTimeLocal(assignment.startTime);
-    this.endTime = toTimeLocal(assignment.endTime);
+    this.trainingDate = assignment.trainingDate;
+    this.startTime = assignment.startTime;
+    this.endTime = assignment.endTime;
     this.maxParticipant = assignment.maxParticipant;
     this.classRoomLink = assignment.classRoomLink;
     this.status = assignment.status;
-    this.topic = TopicResponseDTO.fromEntity(topic);
-    this.material = MaterialResponseDTO.fromEntity(material);
-    this.trainer = UserTrainerResponseDTO.fromEntity(trainer);
+    this.topic = assignment.topic;
+    this.material = assignment.material;
+    this.trainer = assignment.trainerUser;
   }
-  static fromEntity(
-    assignment: Assignment,
-    trainer: User,
-    topic: Topic,
-    material: Material,
-  ) {
-    return new AssignmentResponseDTO(assignment, trainer, topic, material);
+  static fromEntity(assignment: AssignmentFullEntity): AssignmentResponseDTO {
+    return new AssignmentResponseDTO(assignment);
   }
   static fromEntities(
-    assignments: Assignment[],
-    trainer: User,
-    topic: Topic,
-    material: Material,
-  ) {
-    return assignments.map((assignment) =>
-      AssignmentResponseDTO.fromEntity(assignment, trainer, topic, material),
-    );
+    assignments: AssignmentFullEntity[],
+  ): AssignmentResponseDTO[] {
+    return assignments.map(AssignmentResponseDTO.fromEntity);
   }
 }
 
@@ -90,11 +86,11 @@ export class AssignmentResponseWithPaginationDTO {
   data: AssignmentResponseDTO[];
   pagination: Pagination;
 
-  constructor(data: AssignmentResponseDTO[], pagination: Pagination) {
-    this.data = data;
+  constructor(data: AssignmentFullEntity[], pagination: Pagination) {
+    this.data = AssignmentResponseDTO.fromEntities(data);
     this.pagination = pagination;
   }
-  static set(data: AssignmentResponseDTO[], pagination: Pagination) {
+  static set(data: AssignmentFullEntity[], pagination: Pagination) {
     return new AssignmentResponseWithPaginationDTO(data, pagination);
   }
 }

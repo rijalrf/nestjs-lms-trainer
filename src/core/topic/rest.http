@@ -1,4 +1,4 @@
-POST http://localhost:5000/v1/api/topic
+POST http://localhost:5000/api/v1/topic
 Content-Type: application/json
 {
     "title": "Clean Code",
@@ -6,9 +6,13 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:5000/v1/api/topics?page=1&limit=10
+GET http://localhost:5000/api/v1/topics?page=1&limit=10
 Content-Type: application/json
 
 ###
-GET http://localhost:5000/v1/api/topics/1
+GET http://localhost:5000/api/v1/topics/1
+Content-Type: application/json
+
+###
+GET http://localhost:5000/api/v1/topics/topic/populars
 Content-Type: application/json

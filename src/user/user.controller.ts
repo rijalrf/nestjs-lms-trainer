@@ -21,7 +21,7 @@ import { ErrorResponseFilter } from 'src/common/error-response.filter';
 import { ZBody } from 'src/common/decorator/zod.decorator';
 
 @UseFilters(ErrorResponseFilter)
-@Controller('/v1/api/users')
+@Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
@@ -33,7 +33,7 @@ export class UserController {
     return data;
   }
 
-  @Put('/:id')
+  @Put(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
     @ZBody(UserValidation.CREATEUPDATE) user: UserRequestDTO,
@@ -42,7 +42,7 @@ export class UserController {
     return data;
   }
 
-  @Delete('/:id')
+  @Delete(':id')
   @Message('Success delete user')
   async delete(@Param('id', ParseIntPipe) id: number): Promise<void> {
     await this.userService.delete(id);
@@ -58,7 +58,7 @@ export class UserController {
     return data;
   }
 
-  @Get('/:id')
+  @Get(':id')
   async findById(
     @Param('id', ParseIntPipe) id: number,
   ): Promise<UserResponseDTO> {

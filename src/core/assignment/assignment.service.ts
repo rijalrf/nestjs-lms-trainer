@@ -2,11 +2,13 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { AssignmentReposity } from './assignment.repo';
 import {
   AssignmentRequestDTO,
+  AssignmentResponseCountStatusDTO,
   AssignmentResponseDTO,
+  AssignmentResponseTopTrainerDTO,
   AssignmentResponseWithPaginationDTO,
 } from './assignment.dto';
-import { toTimeOnly } from 'src/common/datetime.helper';
 import { Pagination } from 'src/common/dto/pagination.dto';
+import { AssignmentStatusEnum, TrainerPopularEntity } from './assignment.entity';
 
 @Injectable()
 export class AssignmentService {
@@ -16,11 +18,9 @@ export class AssignmentService {
     request: AssignmentRequestDTO,
     userId: number,
   ): Promise<AssignmentResponseDTO> {
-    request.startTime = toTimeOnly(request.startTime);
-    request.endTime = toTimeOnly(request.endTime);
     try {
       const assignment = await this.assignmentRepo.create(request, userId);
-      return assignment;
+      return AssignmentResponseDTO.fromEntity(assignment);
     } catch (error) {
       console.log(error);
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
@@ -32,11 +32,27 @@ export class AssignmentService {
     request: AssignmentRequestDTO,
     userId: number,
   ): Promise<AssignmentResponseDTO> {
-    request.startTime = toTimeOnly(request.startTime);
-    request.endTime = toTimeOnly(request.endTime);
     try {
       const assignment = await this.assignmentRepo.update(id, request, userId);
-      return assignment;
+      return AssignmentResponseDTO.fromEntity(assignment);
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async updateStatus(
+    id: number,
+    status: AssignmentStatusEnum,
+    userId: number,
+  ): Promise<AssignmentResponseDTO> {
+    try {
+      const assignment = await this.assignmentRepo.updateStatus(
+        id,
+        status,
+        userId,
+      );
+      return AssignmentResponseDTO.fromEntity(assignment);
     } catch (error) {
       console.log(error);
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
@@ -46,12 +62,17 @@ export class AssignmentService {
   async getAll(
     page: number,
     limit: number,
+    status: string | '',
   ): Promise<AssignmentResponseWithPaginationDTO> {
     const skip = (page - 1) * limit;
     const take = limit;
     const count = await this.assignmentRepo.count();
     try {
-      const assignments = await this.assignmentRepo.getAll(skip, take);
+      const assignments = await this.assignmentRepo.getAll(
+        skip,
+        take,
+        status as any,
+      );
       return AssignmentResponseWithPaginationDTO.set(
         assignments,
         new Pagination(page, limit, count),
@@ -68,7 +89,7 @@ export class AssignmentService {
       if (!data) {
         throw new HttpException('Assignment not found', HttpStatus.NOT_FOUND);
       }
-      return data;
+      return AssignmentResponseDTO.fromEntity(data);
     } catch (error) {
       console.log(error);
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
@@ -78,6 +99,42 @@ export class AssignmentService {
   async delete(id: number): Promise<void> {
     try {
       await this.assignmentRepo.delete(id);
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async countByStatus(
+    status: AssignmentStatusEnum,
+  ): Promise<AssignmentResponseCountStatusDTO> {
+    console.log(status);
+    try {
+      const count = await this.assignmentRepo.countByStatus(
+        status,
+      );
+      return AssignmentResponseCountStatusDTO.set(
+        status,
+        count,
+      );
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  async topTrainer(): Promise<AssignmentResponseTopTrainerDTO[]> {
+    try {
+      const data = await this.assignmentRepo.topTrainer();
+      const result: TrainerPopularEntity[] = data.map((item) => ({
+        trainer: {
+          id: item.id,
+          name: item.name,
+          email: item.email,
+        },
+        countAssignment: item.countAssignment,
+      }));
+      return AssignmentResponseTopTrainerDTO.set(result);
     } catch (error) {
       console.log(error);
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);

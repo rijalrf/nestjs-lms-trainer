@@ -1,9 +1,11 @@
 import {
+  Body,
   Controller,
   Delete,
   Get,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
   Put,
   Query,
@@ -11,16 +13,18 @@ import {
 import { AssignmentService } from './assignment.service';
 import {
   AssignmentRequestDTO,
+  AssignmentResponseCountStatusDTO,
   AssignmentResponseDTO,
   AssignmentResponseWithPaginationDTO,
 } from './assignment.dto';
 import { ZBody } from 'src/common/decorator/zod.decorator';
 import { AssignmentValidation } from './assignment.validation';
-import { Auth } from 'src/auth/auth.decorator';
 import { UserResponseDTO } from 'src/user/user.dto';
 import { Message } from 'src/common/decorator/message.decorator';
+import { AuthUser } from 'src/auth/auth.decorator';
+import { AssignmentStatusEnum } from './assignment.entity';
 
-@Controller('v1/api/assignments')
+@Controller('assignments')
 export class AssignmentController {
   constructor(private readonly assignmentService: AssignmentService) {}
 
@@ -28,7 +32,7 @@ export class AssignmentController {
   @Message('Assignment created successfully')
   async create(
     @ZBody(AssignmentValidation.CREATEUPDATE) request: AssignmentRequestDTO,
-    @Auth() user: UserResponseDTO,
+    @AuthUser() user: UserResponseDTO,
   ): Promise<AssignmentResponseDTO> {
     return this.assignmentService.create(request, user.id);
   }
@@ -38,9 +42,23 @@ export class AssignmentController {
   async update(
     @Param('id', ParseIntPipe) id: number,
     @ZBody(AssignmentValidation.CREATEUPDATE) request: AssignmentRequestDTO,
-    @Auth() user: UserResponseDTO,
+    @AuthUser() user: UserResponseDTO,
   ): Promise<AssignmentResponseDTO> {
     return this.assignmentService.update(id, request, user.id);
+  }
+
+  @Patch(':id/status')
+  @Message('Assignment status updated successfully')
+  async updateStatus(
+    @Param('id', ParseIntPipe) id: number,
+    @Body('status') status: string,
+    @AuthUser() user: UserResponseDTO,
+  ): Promise<AssignmentResponseDTO> {
+    return this.assignmentService.updateStatus(
+      id,
+      status as AssignmentStatusEnum,
+      user.id,
+    );
   }
 
   @Get()
@@ -48,8 +66,9 @@ export class AssignmentController {
   async getAll(
     @Query('page', ParseIntPipe) page: number,
     @Query('limit', ParseIntPipe) limit: number,
+    @Query('status') status: string | '',
   ): Promise<AssignmentResponseWithPaginationDTO> {
-    return this.assignmentService.getAll(page, limit);
+    return this.assignmentService.getAll(page, limit, status);
   }
 
   @Get(':id')
@@ -64,5 +83,21 @@ export class AssignmentController {
   @Message('Success delete assignment')
   async delete(@Param('id', ParseIntPipe) id: number): Promise<void> {
     return this.assignmentService.delete(id);
+  }
+
+  @Get('count/status')
+  @Message('Success get assignment count by status')
+  async countByStatus(
+    @Query('status') status: string,
+  ): Promise<AssignmentResponseCountStatusDTO> {
+    const count = this.assignmentService.countByStatus(status as AssignmentStatusEnum);
+    return count;
+  }
+
+  @Get('trainer/populars')
+  @Message('Success get top trainers by assignment count')
+  async topTrainers(): Promise<any[]> {
+    const data = this.assignmentService.topTrainer();
+    return data;
   }
 }
