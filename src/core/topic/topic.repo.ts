@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { TopicEntity, TopicPopularEntity } from './topic.entity';
-import { QUERY_FIND_TOPIC_POPULARS } from './topic.queries';
+import { TopicEntity, topicSelects } from './topic.entity';
+import { TOPIC_POPULARS_SQL, TopicPopularSQLResult } from './topic.queries';
 
 @Injectable()
 export class TopicRepositoy {
@@ -15,16 +15,12 @@ export class TopicRepositoy {
    */
   async create(request: TopicEntity, userId: number): Promise<TopicEntity> {
     const topic = await this.db.topic.create({
-      select: {
-        id: true,
-        title: true,
-        description: true,
-      },
       data: {
         title: request.title,
         description: request.description,
         createdBy: userId,
       },
+      select: topicSelects,
     });
     return topic;
   }
@@ -35,11 +31,6 @@ export class TopicRepositoy {
     userId: number,
   ): Promise<TopicEntity> {
     const topic = await this.db.topic.update({
-      select: {
-        id: true,
-        title: true,
-        description: true,
-      },
       data: {
         title: request.title,
         description: request.description,
@@ -48,6 +39,7 @@ export class TopicRepositoy {
       where: {
         id: id,
       },
+      select: topicSelects,
     });
     return topic;
   }
@@ -62,14 +54,10 @@ export class TopicRepositoy {
 
   async findById(id: number): Promise<TopicEntity | null> {
     const topic = await this.db.topic.findUnique({
-      select: {
-        id: true,
-        title: true,
-        description: true,
-      },
       where: {
         id: id,
       },
+      select: topicSelects,
     });
     return topic;
   }
@@ -80,11 +68,6 @@ export class TopicRepositoy {
     take: number,
   ): Promise<TopicEntity[]> {
     const topics = await this.db.topic.findMany({
-      select: {
-        id: true,
-        title: true,
-        description: true,
-      },
       where: {
         title: {
           contains: title,
@@ -93,6 +76,7 @@ export class TopicRepositoy {
       orderBy: {
         id: 'desc',
       },
+      select: topicSelects,
       skip: skip,
       take: take,
     });
@@ -104,10 +88,9 @@ export class TopicRepositoy {
     return count;
   }
 
-  async findTopicPopular(): Promise<TopicPopularEntity[]> {
-    const topics = await this.db.$queryRaw<TopicPopularEntity[]>(
-      QUERY_FIND_TOPIC_POPULARS,
-    );
+  async findTopicPopular(): Promise<TopicPopularSQLResult[]> {
+    const topics =
+      await this.db.$queryRaw<TopicPopularSQLResult[]>(TOPIC_POPULARS_SQL);
     return topics;
   }
 }

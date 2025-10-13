@@ -1,6 +1,6 @@
 import { Prisma } from '@prisma/client';
 
-export const QUERY_FIND_TOPIC_POPULARS = Prisma.sql`
+export const TOPIC_POPULARS_SQL = Prisma.sql`
     SELECT t.title, t.description, COUNT(a.id) as countAssignment
     FROM Topics t
     INNER JOIN Assignments a ON t.id = a.topicId    
@@ -8,4 +8,10 @@ export const QUERY_FIND_TOPIC_POPULARS = Prisma.sql`
     GROUP BY t.id
     ORDER BY countAssignment DESC
     LIMIT 3
-    `;
+`;
+
+export type TopicPopularSQLResult = {
+  title: string;
+  description: string;
+  countAssignment: bigint;
+};

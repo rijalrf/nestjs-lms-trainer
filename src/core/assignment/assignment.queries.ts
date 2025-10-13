@@ -1,6 +1,6 @@
 import { Prisma } from '@prisma/client';
 
-export const QUERY_FIND_TOP_TRAINERS = Prisma.sql`
+export const TOP_TRAINERS_SQL = Prisma.sql`
     SELECT u.id , u.name, u.email, COUNT(a.id) as countAssignment
     FROM Users u
     JOIN Assignments a ON u.id = a.userId
@@ -10,7 +10,7 @@ export const QUERY_FIND_TOP_TRAINERS = Prisma.sql`
     LIMIT 3
   `;
 
-export type QueryFindTopTrainers = {
+export type TopTrainerSQLResult = {
   id: number;
   name: string;
   email: string;

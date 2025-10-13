@@ -9,3 +9,9 @@ export type TopicPopularEntity = {
   description: string;
   countAssignment: bigint;
 };
+
+export const topicSelects = {
+  id: true,
+  title: true,
+  description: true,
+};

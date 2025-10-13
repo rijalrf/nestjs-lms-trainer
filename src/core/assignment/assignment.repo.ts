@@ -4,12 +4,9 @@ import {
   AssignmentEntity,
   AssignmentFullEntity,
   AssignmentStatusEnum,
-  querySelects,
+  includeSelects,
 } from './assignment.entity';
-import {
-  QUERY_FIND_TOP_TRAINERS,
-  QueryFindTopTrainers,
-} from './assignment.queries';
+import { TOP_TRAINERS_SQL, TopTrainerSQLResult } from './assignment.queries';
 
 @Injectable()
 export class AssignmentReposity {
@@ -26,9 +23,9 @@ export class AssignmentReposity {
     const data = await this.db.assignment.create({
       data: newData,
       include: {
-        topic: { select: querySelects.topic },
-        material: { select: querySelects.material },
-        trainerUser: { select: querySelects.trainer },
+        topic: { select: includeSelects.topic },
+        material: { select: includeSelects.material },
+        trainerUser: { select: includeSelects.trainer },
       },
     });
     return data;
@@ -47,9 +44,9 @@ export class AssignmentReposity {
       where: { id },
       data: updateData,
       include: {
-        topic: { select: querySelects.topic },
-        material: { select: querySelects.material },
-        trainerUser: { select: querySelects.trainer },
+        topic: { select: includeSelects.topic },
+        material: { select: includeSelects.material },
+        trainerUser: { select: includeSelects.trainer },
       },
     });
     return data;
@@ -67,9 +64,9 @@ export class AssignmentReposity {
         updatedBy: userId,
       },
       include: {
-        topic: { select: querySelects.topic },
-        material: { select: querySelects.material },
-        trainerUser: { select: querySelects.trainer },
+        topic: { select: includeSelects.topic },
+        material: { select: includeSelects.material },
+        trainerUser: { select: includeSelects.trainer },
       },
     });
     return assignment;
@@ -87,9 +84,9 @@ export class AssignmentReposity {
         status: status,
       },
       include: {
-        topic: { select: querySelects.topic },
-        material: { select: querySelects.material },
-        trainerUser: { select: querySelects.trainer },
+        topic: { select: includeSelects.topic },
+        material: { select: includeSelects.material },
+        trainerUser: { select: includeSelects.trainer },
       },
     });
     return data;
@@ -99,9 +96,9 @@ export class AssignmentReposity {
     const data = await this.db.assignment.findUnique({
       where: { id },
       include: {
-        topic: { select: querySelects.topic },
-        material: { select: querySelects.material },
-        trainerUser: { select: querySelects.trainer },
+        topic: { select: includeSelects.topic },
+        material: { select: includeSelects.material },
+        trainerUser: { select: includeSelects.trainer },
       },
     });
     return data;
@@ -117,19 +114,18 @@ export class AssignmentReposity {
   }
 
   async countByStatus(status: AssignmentStatusEnum): Promise<number> {
-    console.log({status});
+    console.log({ status });
     const count = await this.db.assignment.count({
       where: {
-        status : status,
+        status: status,
       },
     });
     return count;
   }
 
-  async topTrainer(): Promise<QueryFindTopTrainers[]> {
-    const result = await this.db.$queryRaw<QueryFindTopTrainers[]>(
-      QUERY_FIND_TOP_TRAINERS,
-    );
+  async topTrainer(): Promise<TopTrainerSQLResult[]> {
+    const result =
+      await this.db.$queryRaw<TopTrainerSQLResult[]>(TOP_TRAINERS_SQL);
     return result;
   }
 }

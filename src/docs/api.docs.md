@@ -266,6 +266,58 @@
 }
 ```
 
+### Trainer Populars
+
+- URL: `api/v1/assignments/trainer/populars`
+- Method: `GET`
+
+**Response (200 OK):**
+
+```json
+{
+  "success": true,
+  "code": 200,
+  "message": "Success get top trainers by assignment count",
+  "data": [
+    {
+      "trainer": {
+        "id": 7,
+        "name": "Rijal Rifai",
+        "email": "rijal@ppu.co.id"
+      },
+      "countAssignment": 10
+    },
+    {
+      "trainer": {
+        "id": 4,
+        "name": "Dewi Lestari",
+        "email": "dewi.lestari@example.com"
+      },
+      "countAssignment": 2
+    },
+    {
+      "trainer": {
+        "id": 16,
+        "name": "Hannah Garrett",
+        "email": "bubiqik@mailinator.com"
+      },
+      "countAssignment": 1
+    }
+  ]
+}
+```
+
+**Error Response (404 Not Found):**
+
+```json
+{
+  "success": false,
+  "code": 404,
+  "message": "Trainer not found",
+  "errors": "Not Found"
+}
+```
+
 ## 3. Topics
 
 ### Create Topic
@@ -447,6 +499,49 @@
   "success": false,
   "code": 404,
   "message": "topic with id 1 not found",
+  "errors": "Not Found"
+}
+```
+
+### Topic Populars
+
+- URL: `api/v1/topics/topic/populars`
+- Method: `GET`
+
+**Response (200 OK):**
+
+```json
+{
+  "success": true,
+  "code": 200,
+  "message": "Topics popular retrieved successfully",
+  "data": [
+    {
+      "title": "Voluptatem Consequa update",
+      "description": "Nemo duis aliqua Fu updated",
+      "countAssignment": 1
+    },
+    {
+      "title": "aaa",
+      "description": "aaa",
+      "countAssignment": 1
+    },
+    {
+      "title": "Clean Code",
+      "description": "Clean Code Topic ",
+      "countAssignment": 1
+    }
+  ]
+}
+```
+
+**Error Response (404 Not Found):**
+
+```json
+{
+  "success": false,
+  "code": 404,
+  "message": "Topic not found",
   "errors": "Not Found"
 }
 ```
@@ -676,6 +771,49 @@
   "success": false,
   "code": 404,
   "message": "topic with id 2 not found",
+  "errors": "Not Found"
+}
+```
+
+### Material Populars
+
+- URL: `api/v1/materials/material/populars`
+- Method: `GET`
+
+**Response (200 OK):**
+
+```json
+{
+  "success": true,
+  "code": 200,
+  "message": "Materials popular retrieved successfully",
+  "data": [
+    {
+      "title": "Dolor beatae cumque ",
+      "description": "Eos reprehenderit re",
+      "countAssignment": 1
+    },
+    {
+      "title": "Non debitis quisquam",
+      "description": "Commodi est maxime ",
+      "countAssignment": 1
+    },
+    {
+      "title": "Fuga Eum molestiae ",
+      "description": "Sint fuga Ea dolore",
+      "countAssignment": 1
+    }
+  ]
+}
+```
+
+**Error Response (404 Not Found):**
+
+```json
+{
+  "success": false,
+  "code": 404,
+  "message": "Material not found",
   "errors": "Not Found"
 }
 ```
@@ -1075,3 +1213,36 @@
   "errors": "Not Found"
 }
 ```
+
+### Assignmets By Status
+
+- URL: `api/v1/assignments/count/status`
+- Method: `GET`
+- Query Params:
+  - `status`: string (optional, filter by status)
+
+**Response (200 OK):**
+
+````json
+
+{
+  "success": true,
+  "code": 200,
+  "message": "Success get assignment count by status",
+  "data": {
+    "status": "PUBLISH",
+    "count": 3
+  }
+}
+``
+**Error Response (404 Not Found):**
+
+```json
+{
+  "success": false,
+  "code": 404,
+  "message": "Assignment Status not found",
+  "errors": "Not Found"
+}
+
+````

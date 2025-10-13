@@ -38,7 +38,7 @@ export type TrainerPopularEntity = {
   countAssignment: bigint;
 };
 
-export const querySelects = {
+export const includeSelects = {
   topic: {
     id: true,
     title: true,

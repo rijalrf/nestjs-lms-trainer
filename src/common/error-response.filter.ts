@@ -62,7 +62,7 @@ export class ErrorResponseFilter<T> implements ExceptionFilter {
         });
       }
     } else if (exception instanceof UnauthorizedException) {
-      Logger.error(exception, 'Unauthorized Error')
+      Logger.error(exception.message, 'Unauthorized Error')
       response.status(exception.getStatus()).json({
         success: false,
         code: exception.getStatus(),
@@ -70,7 +70,7 @@ export class ErrorResponseFilter<T> implements ExceptionFilter {
         exceptions: 'UnauthorizedException',
       });
     } else if (exception instanceof HttpException) {
-      Logger.error(exception, 'Http Error')
+      Logger.error(exception.message, 'Http Error')
       response.status(exception.getStatus()).json({
         success: false,
         code: exception.getStatus(),

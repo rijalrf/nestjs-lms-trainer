@@ -14,13 +14,12 @@ export class TopicService {
 
   async create(
     request: TopicRequestDTO,
-    sessionUserId: number,
+    userId: number,
   ): Promise<TopicResponseDTO> {
     try {
-      const topic = await this.topicRepo.create(request, sessionUserId);
+      const topic = await this.topicRepo.create(request, userId);
       return TopicResponseDTO.fromEntity(topic);
     } catch (error) {
-      console.log(error);
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
@@ -28,13 +27,12 @@ export class TopicService {
   async update(
     id: number,
     request: TopicRequestDTO,
-    sessionUserId: number,
+    userId: number,
   ): Promise<TopicResponseDTO> {
     try {
-      const topic = await this.topicRepo.update(id, request, sessionUserId);
+      const topic = await this.topicRepo.update(id, request, userId);
       return TopicResponseDTO.fromEntity(topic);
     } catch (error) {
-      console.log(error);
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
@@ -43,7 +41,6 @@ export class TopicService {
     try {
       await this.topicRepo.delete(id);
     } catch (error) {
-      console.log(error);
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
@@ -60,8 +57,6 @@ export class TopicService {
       const topics = await this.topicRepo.findAll(title, skip, limit);
       return TopicResponseDTOwithPagination.set(topics, pagination);
     } catch (error) {
-      console.error(error);
-      console.log(error);
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
@@ -70,12 +65,10 @@ export class TopicService {
     try {
       const topic = await this.topicRepo.findById(id);
       if (!topic) {
-        console.log('Topic not found');
         throw new HttpException('Topic not found', HttpStatus.NOT_FOUND);
       }
       return TopicResponseDTO.fromEntity(topic);
     } catch (error) {
-      console.log(error);
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
@@ -85,7 +78,6 @@ export class TopicService {
       const topicPopulars = await this.topicRepo.findTopicPopular();
       return TopicPopularResponseDTO.set(topicPopulars);
     } catch (error) {
-      console.log(error);
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }
   }
