@@ -4,7 +4,7 @@
 
 ### User Login
 
-- URL: `v1/api/auth/login`
+- URL: `api/v1/auth/login`
 - Method: `POST`
 
 **Request Body:**
@@ -16,7 +16,9 @@
 }
 ```
 
-**Response (200 OK):**
+**Response Header** : Set-Cookie: token=753f4fe6-573a-4e22-9d9e-186415bc...; Path=/; Expires=Sat, 20 Apr 2024 12:00:00 GMT; HttpOnly
+
+**Response Body(200 OK):**
 
 ```json
 {
@@ -24,7 +26,7 @@
   "success": true,
   "message": "User logged in successfully",
   "data": {
-    "id": "1",
+    "id": 1,
     "name": "John Doe",
     "email": "john.doe@example.com",
     "divisi": "IT",
@@ -56,10 +58,10 @@
 
 ### User Logout
 
-- URL: `v1/api/auth/logout`
+- URL: `api/v1/auth/logout`
 - Method: `DELETE`
 
-**Response (200 OK):**
+**Response Body(200 OK):**
 
 ```json
 {
@@ -71,7 +73,7 @@
 
 ### User Registration
 
-**URL:** `v1/api/auth/register`
+**URL:** `api/v1/auth/register`
 
 **Method:** `POST`
 
@@ -88,7 +90,7 @@
 }
 ```
 
-**Response (201 Created):**
+**Response Body(201 Created):**
 
 ```json
 {
@@ -130,7 +132,7 @@
 
 ### Update User
 
-**URL:** `v1/api/users/:id`
+**URL:** `api/v1/users/:id`
 
 **Method:** `PUT`
 
@@ -147,7 +149,7 @@
 }
 ```
 
-**Response (200 OK):**
+**Response Body(200 OK):**
 
 ```json
 {
@@ -166,13 +168,13 @@
 
 ### Get All Users
 
-- URL: `v1/api/users`
+- URL: `api/v1/users`
 - Method: `GET`
 - Query Params:
   - `page`: number (optional, default: 1)
   - `limit`: number (optional, default: 10)
 
-**Response (200 OK):**
+**Response Body(200 OK):**
 
 ```json
 {
@@ -208,10 +210,10 @@
 
 ### Get User By ID
 
-- URL: `v1/api/users/:id`
+- URL: `api/v1/users/:id`
 - Method: `GET`
 
-**Response (200 OK):**
+**Response Body(200 OK):**
 
 ```json
 {
@@ -229,7 +231,7 @@
 }
 ```
 
-**Error Response (404 Not Found):**
+**Error Response Body(404 Not Found):**
 
 ```json
 {
@@ -242,10 +244,10 @@
 
 ### Delete User By ID
 
-- URL: `v1/api/users/:id`
+- URL: `api/v1/users/:id`
 - Method: `DELETE`
 
-**Response (200 OK):**
+**Response Body(200 OK):**
 
 ```json
 {
@@ -255,7 +257,7 @@
 }
 ```
 
-**Error Response (404 Not Found):**
+**Error Response Body(404 Not Found):**
 
 ```json
 {
@@ -271,7 +273,7 @@
 - URL: `api/v1/assignments/trainer/populars`
 - Method: `GET`
 
-**Response (200 OK):**
+**Response Body(200 OK):**
 
 ```json
 {
@@ -307,7 +309,7 @@
 }
 ```
 
-**Error Response (404 Not Found):**
+**Error Response Body(404 Not Found):**
 
 ```json
 {
@@ -322,7 +324,7 @@
 
 ### Create Topic
 
-- URL: `v1/api/topics`
+- URL: `api/v1/topics`
 - Method: `POST`
 
 **Request Body:**
@@ -334,7 +336,7 @@
 }
 ```
 
-**Response (201 Created):**
+**Response Body(201 Created):**
 
 ```json
 {
@@ -367,7 +369,7 @@
 
 ### Update Topic
 
-- URL: `v1/api/topics/:id`
+- URL: `api/v1/topics/:id`
 - Method: `PUT`
 
 **Request Body:**
@@ -379,7 +381,7 @@
 }
 ```
 
-**Response (201 Created):**
+**Response Body(200):**
 
 ```json
 {
@@ -412,13 +414,13 @@
 
 ### Get All Topics
 
-- URL: `v1/api/topics`
+- URL: `api/v1/topics`
 - Method: `GET`
 - Query Params:
   - `page`: number (optional, default: 1)
   - `limit`: number (optional, default: 10)
 
-**Response (200 OK):**
+**Response Body(200 OK):**
 
 ```json
 {
@@ -448,16 +450,16 @@
 
 ### Get Topic By ID
 
-- URL: `v1/api/topics/:id`
+- URL: `api/v1/topics/:id`
 - Method: `GET`
 
-**Response (200 OK):**
+**Response Body(200 OK):**
 
 ```json
 {
   "success": true,
   "code": 200,
-  "message": "Success delete topic by id",
+  "message": "Success get topic by id",
   "data": {
     "id": 2,
     "title": "Introduction to NestJS 2",
@@ -466,7 +468,7 @@
 }
 ```
 
-**Error Response (404 Not Found):**
+**Error Response Body(404 Not Found):**
 
 ```json
 {
@@ -479,10 +481,10 @@
 
 ### Delete Topic By ID
 
-- URL: `v1/api/topics/:id`
+- URL: `api/v1/topics/:id`
 - Method: `DELETE`
 
-**Response (200 OK):**
+**Response Body(200 OK):**
 
 ```json
 {
@@ -492,7 +494,7 @@
 }
 ```
 
-**Error Response (404 Not Found):**
+**Error Response Body(404 Not Found):**
 
 ```json
 {
@@ -508,7 +510,7 @@
 - URL: `api/v1/topics/topic/populars`
 - Method: `GET`
 
-**Response (200 OK):**
+**Response Body(200 OK):**
 
 ```json
 {
@@ -535,7 +537,7 @@
 }
 ```
 
-**Error Response (404 Not Found):**
+**Error Response Body(404 Not Found):**
 
 ```json
 {
@@ -550,7 +552,7 @@
 
 ### Create Material
 
-- URL: `v1/api/materials`
+- URL: `api/v1/materials`
 - Method: `POST`
 
 **Request Body:**
@@ -564,7 +566,7 @@
 }
 ```
 
-**Response (201 Created):**
+**Response Body(201 Created):**
 
 ```json
 {
@@ -603,7 +605,7 @@
 
 ### Update Material
 
-- URL: `v1/api/materials/:id`
+- URL: `api/v1/materials/:id`
 - Method: `PUT`
 
 **Request Body:**
@@ -617,7 +619,7 @@
 }
 ```
 
-**Response (200 OK):**
+**Response Body(200 OK):**
 
 ```json
 {
@@ -652,14 +654,14 @@
 
 ### Get All Materials
 
-- URL: `v1/api/materials`
+- URL: `api/v1/materials`
 - Method: `GET`
 - Query Params:
   - `page`: number (optional, default: 1)
   - `limit`: number (optional, default: 10)
   - `topicId`: number (optional, filter by topic)
 
-**Response (200 OK):**
+**Response Body(200 OK):**
 
 ```json
 {
@@ -693,10 +695,10 @@
 
 ### Get Material By ID
 
-- URL: `v1/api/materials/:id`
+- URL: `api/v1/materials/:id`
 - Method: `GET`
 
-**Response (200 OK):**
+**Response Body(200 OK):**
 
 ```json
 {
@@ -713,7 +715,7 @@
 }
 ```
 
-**Error Response (404 Not Found):**
+**Error Response Body(404 Not Found):**
 
 ```json
 {
@@ -726,13 +728,13 @@
 
 ### Get Materials By Topic ID
 
-- URL: `v1/api/materials/topic/:topicId`
+- URL: `api/v1/materials/topic/:topicId`
 - Method: `GET`
 - Query Params:
   - `page`: number (optional, default: 1)
   - `limit`: number (optional, default: 10)
 
-**Response (200 OK):**
+**Response Body(200 OK):**
 
 ```json
 {
@@ -764,7 +766,7 @@
 }
 ```
 
-**Error Response (404 Not Found):**
+**Error Response Body(404 Not Found):**
 
 ```json
 {
@@ -780,7 +782,7 @@
 - URL: `api/v1/materials/material/populars`
 - Method: `GET`
 
-**Response (200 OK):**
+**Response Body(200 OK):**
 
 ```json
 {
@@ -807,7 +809,7 @@
 }
 ```
 
-**Error Response (404 Not Found):**
+**Error Response Body(404 Not Found):**
 
 ```json
 {
@@ -822,7 +824,7 @@
 
 ### Create Assignment
 
-- URL: `v1/api/assignments`
+- URL: `api/v1/assignments`
 - Method: `POST`
 
 **Request Body:**
@@ -841,7 +843,7 @@
 }
 ```
 
-**Response (201 Created):**
+**Response Body(201 Created):**
 
 ```json
 {
@@ -895,7 +897,7 @@
 
 ### Update Assignment
 
-- URL: `v1/api/assignments/:id`
+- URL: `api/v1/assignments/:id`
 - Method: `PUT`
 
 **Request Body:**
@@ -906,15 +908,15 @@
   "materialId": 1,
   "userId": 1,
   "trainingDate": "2025-12-31",
-  "startTime": "09:00:00",
-  "endTime": "17:00:00",
+  "startTime": "09:00",
+  "endTime": "17:00",
   "maxParticipant": 50,
   "classRoomLink": "https://meet.google.com/xxx-xxx-xxx",
   "status": "PUBLISH"
 }
 ```
 
-**Response (200 OK):**
+**Response Body(200 OK):**
 
 ```json
 {
@@ -968,7 +970,7 @@
 
 ### Update Status Assignment
 
-- URL: `v1/api/assignments/:id/status`
+- URL: `api/v1/assignments/:id/status`
 - Method: `PATCH`
 
 **Request Body:**
@@ -979,7 +981,7 @@
 }
 ```
 
-**Response (200 OK):**
+**Response Body(200 OK):**
 
 ```json
 {
@@ -1033,14 +1035,14 @@
 
 ### Get All Assignments
 
-- URL: `v1/api/assignments`
+- URL: `api/v1/assignments`
 - Method: `GET`
 - Query Params:
   - `page`: number (optional, default: 1)
   - `limit`: number (optional, default: 10)
   - `status`: string (optional, filter by status)
 
-**Response (200 OK):**
+**Response Body(200 OK):**
 
 ```json
 {
@@ -1138,10 +1140,10 @@
 
 ### Get Assignment By ID
 
-- URL: `v1/api/assignments/:id`
+- URL: `api/v1/assignments/:id`
 - Method: `GET`
 
-**Response (200 OK):**
+**Response Body(200 OK):**
 
 ```json
 {
@@ -1177,7 +1179,7 @@
 }
 ```
 
-**Error Response (404 Not Found):**
+**Error Response Body(404 Not Found):**
 
 ```json
 {
@@ -1190,10 +1192,10 @@
 
 ### Delete Assignment By ID
 
-- URL: `v1/api/assignments/:id`
+- URL: `api/v1/assignments/:id`
 - Method: `DELETE`
 
-**Response (200 OK):**
+**Response Body(200 OK):**
 
 ```json
 {
@@ -1203,7 +1205,7 @@
 }
 ```
 
-**Error Response (404 Not Found):**
+**Error Response Body(404 Not Found):**
 
 ```json
 {
@@ -1214,14 +1216,14 @@
 }
 ```
 
-### Assignmets By Status
+### Assignments By Status
 
 - URL: `api/v1/assignments/count/status`
 - Method: `GET`
 - Query Params:
   - `status`: string (optional, filter by status)
 
-**Response (200 OK):**
+**Response Body(200 OK):**
 
 ````json
 
@@ -1235,7 +1237,7 @@
   }
 }
 ``
-**Error Response (404 Not Found):**
+**Error Response Body(404 Not Found):**
 
 ```json
 {

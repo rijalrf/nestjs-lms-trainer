@@ -1,39 +1,27 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { UserRequestDTO } from './user.dto';
 import { User } from '@prisma/client';
+import { UserEntity, userSelects } from './user.entity';
 
 @Injectable()
 export class UserRepository {
   constructor(private readonly db: PrismaService) {}
 
-  async create(request: UserRequestDTO): Promise<User> {
+  async create(request: UserEntity): Promise<UserEntity> {
     const user = await this.db.user.create({
-      data: {
-        name: request.name,
-        email: request.email,
-        password: request.password,
-        divisi: request.divisi,
-        position: request.position,
-        role: request.roles,
-      },
+      data: request,
+      select: userSelects,
     });
     return user;
   }
 
-  async update(id: number, request: UserRequestDTO): Promise<User> {
+  async update(id: number, request: UserEntity): Promise<UserEntity> {
     const user = await this.db.user.update({
+      data: request,
       where: {
         id: id,
       },
-      data: {
-        name: request.name,
-        email: request.email,
-        password: request.password,
-        divisi: request.divisi,
-        position: request.position,
-        role: request.roles,
-      },
+      select: userSelects,
     });
     return user;
   }
@@ -46,7 +34,7 @@ export class UserRepository {
     });
   }
 
-  async findByEmail(email: string): Promise<User | null> {
+  async findByEmail(email: string): Promise<UserEntity | null> {
     const user = await this.db.user.findUnique({
       where: {
         email: email,
@@ -55,7 +43,7 @@ export class UserRepository {
     return user;
   }
 
-  async findById(id: number): Promise<User | null> {
+  async findById(id: number): Promise<UserEntity | null> {
     const user = await this.db.user.findUnique({
       where: {
         id: id,
@@ -64,7 +52,7 @@ export class UserRepository {
     return user;
   }
 
-  async findAll(page: number = 1, limit: number): Promise<User[]> {
+  async findAll(page: number = 1, limit: number): Promise<UserEntity[]> {
     const skip = (page - 1) * limit;
     const users: User[] = await this.db.user.findMany({
       take: limit,
@@ -89,7 +77,7 @@ export class UserRepository {
     });
   }
 
-  async findUserByToken(token: string): Promise<User | null> {
+  async findUserByToken(token: string): Promise<UserEntity | null> {
     const user = await this.db.user.findFirst({
       where: {
         token: token,
@@ -111,19 +99,13 @@ export class UserRepository {
 
   async updateUserWithoutPassword(
     id: number,
-    request: UserRequestDTO,
-  ): Promise<User> {
+    request: UserEntity,
+  ): Promise<UserEntity> {
     const user = await this.db.user.update({
       where: {
         id: id,
       },
-      data: {
-        name: request.name,
-        email: request.email,
-        divisi: request.divisi,
-        position: request.position,
-        role: request.roles,
-      },
+      data: request,
     });
     return user;
   }

@@ -5,8 +5,11 @@ export type MaterialEntity = {
   topicId: number;
   fileUrl: string;
 };
-export type MaterialPopularEntity = {
-  title: string;
-  description: string;
-  countAssignment: bigint;
+
+export const materialSelects = {
+  id: true,
+  title: true,
+  description: true,
+  topicId: true,
+  fileUrl: true,
 };

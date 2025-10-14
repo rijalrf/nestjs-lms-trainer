@@ -1,8 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { Material } from '@prisma/client';
-import { MaterialEntity, MaterialPopularEntity } from './material.entity';
-import { QUERY_FIND_MATERIAL_POPULARS } from './material.queries';
+import { MaterialEntity, materialSelects } from './material.entity';
+import {
+  MATERIAL_POPULARS_SQL,
+  MaterialPopularSQLResult,
+} from './material.queries';
 
 @Injectable()
 export class MaterialRepository {
@@ -11,10 +14,7 @@ export class MaterialRepository {
   async create(request: MaterialEntity, userId: number): Promise<Material> {
     const material = await this.db.material.create({
       data: {
-        title: request.title,
-        description: request.description,
-        topicId: request.topicId,
-        fileUrl: request.fileUrl,
+        ...request,
         createdBy: userId,
       },
     });
@@ -28,21 +28,12 @@ export class MaterialRepository {
     userId: number,
   ): Promise<MaterialEntity> {
     const material = await this.db.material.update({
-      select: {
-        id: true,
-        title: true,
-        description: true,
-        topicId: true,
-        fileUrl: true,
-      },
+      select: materialSelects,
       where: {
         id: id,
       },
       data: {
-        title: request.title,
-        description: request.description,
-        topicId: request.topicId,
-        fileUrl: request.fileUrl,
+        ...request,
         updatedBy: userId,
       },
     });
@@ -60,13 +51,7 @@ export class MaterialRepository {
 
   async findById(id: number): Promise<MaterialEntity | null> {
     const material = await this.db.material.findUnique({
-      select: {
-        id: true,
-        title: true,
-        description: true,
-        topicId: true,
-        fileUrl: true,
-      },
+      select: materialSelects,
       where: {
         id: id,
       },
@@ -82,13 +67,7 @@ export class MaterialRepository {
     take: number,
   ): Promise<MaterialEntity[]> {
     const materials = await this.db.material.findMany({
-      select: {
-        id: true,
-        title: true,
-        description: true,
-        topicId: true,
-        fileUrl: true,
-      },
+      select: materialSelects,
       where: {
         title: {
           contains: title,
@@ -105,7 +84,7 @@ export class MaterialRepository {
     return materials;
   }
 
-  async countByTopic(topicId: number | undefined): Promise<number> {
+  async countByTopic(topicId: number): Promise<number> {
     const count = await this.db.material.count({
       where: {
         topicId: topicId,
@@ -120,9 +99,9 @@ export class MaterialRepository {
     return count;
   }
 
-  async findMaterialPopular(): Promise<MaterialPopularEntity[]> {
-    const materials = await this.db.$queryRaw<MaterialPopularEntity[]>(
-      QUERY_FIND_MATERIAL_POPULARS,
+  async findMaterialPopular(): Promise<MaterialPopularSQLResult[]> {
+    const materials = await this.db.$queryRaw<MaterialPopularSQLResult[]>(
+      MATERIAL_POPULARS_SQL,
     );
     return materials;
   }

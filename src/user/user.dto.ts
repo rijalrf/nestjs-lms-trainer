@@ -1,5 +1,5 @@
-import { Role, User } from '@prisma/client';
 import { Pagination } from 'src/common/dto/pagination.dto';
+import { UserEntity, UserRoleEnum } from './user.entity';
 
 export class UserRequestDTO {
   name: string;
@@ -7,7 +7,7 @@ export class UserRequestDTO {
   password: string;
   divisi: string;
   position: string;
-  roles: Role;
+  role: UserRoleEnum;
 }
 
 export class UserResponseDTO {
@@ -16,24 +16,22 @@ export class UserResponseDTO {
   email: string;
   divisi: string;
   position: string;
-  roles: Role;
+  role: UserRoleEnum;
 
-  constructor(user: User | null) {
-    if (user) {
-      this.id = user.id;
-      this.name = user.name;
-      this.email = user.email;
-      this.divisi = user.divisi;
-      this.position = user.position;
-      this.roles = user.role;
-    }
+  constructor(user: UserEntity) {
+    id: user.id;
+    name: user.name;
+    email: user.email;
+    divisi: user.divisi;
+    position: user.position;
+    role: user.role;
   }
 
-  static fromEntity(user: User): UserResponseDTO {
+  static fromEntity(user: UserEntity): UserResponseDTO {
     return new UserResponseDTO(user);
   }
 
-  static fromEntities(users: User[]): UserResponseDTO[] {
+  static fromEntities(users: UserEntity[]): UserResponseDTO[] {
     return users.map(UserResponseDTO.fromEntity);
   }
 }
@@ -42,12 +40,12 @@ export class UserResponseDTOwithPagination {
   data: UserResponseDTO[];
   pagination: Pagination;
 
-  constructor(data: User[], pagination: Pagination) {
+  constructor(data: UserEntity[], pagination: Pagination) {
     this.data = data.map(UserResponseDTO.fromEntity);
     this.pagination = pagination;
   }
 
-  static set(data: User[], pagination: Pagination) {
+  static set(data: UserEntity[], pagination: Pagination) {
     return new UserResponseDTOwithPagination(data, pagination);
   }
 }

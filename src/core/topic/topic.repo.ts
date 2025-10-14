@@ -16,8 +16,7 @@ export class TopicRepositoy {
   async create(request: TopicEntity, userId: number): Promise<TopicEntity> {
     const topic = await this.db.topic.create({
       data: {
-        title: request.title,
-        description: request.description,
+        ...request,
         createdBy: userId,
       },
       select: topicSelects,
@@ -32,8 +31,7 @@ export class TopicRepositoy {
   ): Promise<TopicEntity> {
     const topic = await this.db.topic.update({
       data: {
-        title: request.title,
-        description: request.description,
+        ...request,
         updatedBy: userId,
       },
       where: {

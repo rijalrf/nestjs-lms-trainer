@@ -163,15 +163,6 @@ Saat melakukan deployment ke production, pastikan Anda:
 4. Push ke branch (`git push origin feature/fitur-hebat`)
 5. Buka Pull Request
 
-## Dukungan
-
-Untuk pertanyaan dan dukungan, silakan hubungi tim pengembang atau kirimkan isu di repositori.
-
-## Tetap Terhubung
-
-- Pembuat - [Tim Pengembang]
-- Framework - [NestJS](https://nestjs.com/)
-
 ## Lisensi
 
 Proyek ini dilisensikan di bawah [lisensi MIT](https://github.com/nestjs/nest/blob/master/LICENSE).

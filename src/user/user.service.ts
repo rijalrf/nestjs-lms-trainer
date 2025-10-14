@@ -7,22 +7,20 @@ import {
 import { UserRepository } from './user.repo';
 import { Pagination } from 'src/common/dto/pagination.dto';
 import { HashService } from 'src/helper/hash/hash.service';
-import type { User } from '@prisma/client';
 
 @Injectable()
 export class UserService {
   constructor(
     private readonly userRepo: UserRepository,
-    private readonly hashService: HashService, // Add LoggerService to the constructor
+    private readonly hashService: HashService,
   ) {}
 
   async register(request: UserRequestDTO): Promise<UserResponseDTO> {
-    const hashPassword = await this.hashService.hashPassword(request.password);
-    request.password = hashPassword;
+    request.password = await this.hashService.hashPassword(request.password);
 
     try {
-      const existingUser = await this.userRepo.findByEmail(request.email);
-      if (existingUser) {
+      const userEmail = await this.userRepo.findByEmail(request.email);
+      if (userEmail) {
         throw new HttpException('Email already exists', HttpStatus.BAD_REQUEST);
       }
       const user = await this.userRepo.create(request);
@@ -88,13 +86,13 @@ export class UserService {
     }
   }
 
-  async findAuthByEmail(email: string): Promise<User> {
+  async findAuthByEmail(email: string): Promise<UserResponseDTO> {
     try {
       const user = await this.userRepo.findByEmail(email);
       if (!user) {
         throw new HttpException('User not found', HttpStatus.NOT_FOUND);
       }
-      return user;
+      return UserResponseDTO.fromEntity(user);
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }

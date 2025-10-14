@@ -1,3 +1,5 @@
+
+### Create Material
 POST http://localhost:5000/api/v1/materials
 Content-Type: application/json
 
@@ -8,7 +10,7 @@ Content-Type: application/json
   "fileUrl": "https://example.com/nestjs-fundamentals.pdf"
 }
 
-###
+### Update Material
 PUT http://localhost:5000/api/v1/materials/2
 Content-Type: application/json
 
@@ -19,23 +21,23 @@ Content-Type: application/json
   "fileUrl": "https://example.com/nestjs-fundamentals-v2.pdf"
 }
 
-###
+### Get All Materials
 GET http://localhost:5000/api/v1/materials/topic/9?page=1&limit=10
 Content-Type: application/json
 
-###
+### Get Material by ID
 GET http://localhost:5000/api/v1/materials/2
 Content-Type: application/json
 
 
-###
+### Delete Material by ID
 DELETE http://localhost:5000/api/v1/materials/1
 Content-Type: application/json
 
-###
+### Get Materials Count
 GET http://localhost:5000/api/v1/materials/count
 Content-Type: application/json
 
-###
+### Get Materials Populars
 GET http://localhost:5000/api/v1/materials/material/populars
 Content-Type: application/json
