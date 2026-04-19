@@ -6,6 +6,10 @@ export type MaterialEntity = {
   fileUrl: string;
 };
 
+export type MaterialPopularEntity = MaterialEntity & {
+  countAssignment: bigint;
+};
+
 export const materialSelects = {
   id: true,
   title: true,

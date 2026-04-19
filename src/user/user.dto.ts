@@ -2,12 +2,12 @@ import { Pagination } from 'src/common/dto/pagination.dto';
 import { UserEntity, UserRoleEnum } from './user.entity';
 
 export class UserRequestDTO {
-  name: string;
-  email: string;
-  password: string;
-  divisi: string;
-  position: string;
-  role: UserRoleEnum;
+  name!: string;
+  email!: string;
+  password!: string;
+  divisi!: string;
+  position!: string;
+  role!: UserRoleEnum;
 }
 
 export class UserResponseDTO {
@@ -19,12 +19,12 @@ export class UserResponseDTO {
   role: UserRoleEnum;
 
   constructor(user: UserEntity) {
-    id: user.id;
-    name: user.name;
-    email: user.email;
-    divisi: user.divisi;
-    position: user.position;
-    role: user.role;
+    this.id = user.id!;
+    this.name = user.name;
+    this.email = user.email;
+    this.divisi = user.divisi;
+    this.position = user.position;
+    this.role = user.role;
   }
 
   static fromEntity(user: UserEntity): UserResponseDTO {
@@ -33,6 +33,19 @@ export class UserResponseDTO {
 
   static fromEntities(users: UserEntity[]): UserResponseDTO[] {
     return users.map(UserResponseDTO.fromEntity);
+  }
+}
+
+export class UserAuthDTO extends UserResponseDTO {
+  password!: string;
+
+  constructor(user: UserEntity) {
+    super(user);
+    this.password = user.password;
+  }
+
+  static fromEntity(user: UserEntity): UserAuthDTO {
+    return new UserAuthDTO(user);
   }
 }
 

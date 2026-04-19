@@ -1,7 +1,6 @@
-import { StatusAssignment } from '@prisma/client';
+import { StatusAssignment, Prisma } from '@prisma/client';
 import { MaterialEntity } from '../material/material.entity';
 import { TopicEntity } from '../topic/topic.entity';
-import { Prisma } from 'generated/prisma';
 
 export type AssignmentStatusEnum = StatusAssignment;
 

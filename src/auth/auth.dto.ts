@@ -1,4 +1,3 @@
-import { User } from '@prisma/client';
 import { UserResponseDTO } from 'src/user/user.dto';
 
 export class LoginRequestDTO {
@@ -10,12 +9,12 @@ export class LoginResponseDTO {
   token: string;
   data: UserResponseDTO;
 
-  constructor(user: User, token: string) {
-    this.data = UserResponseDTO.fromEntity(user);
+  constructor(user: UserResponseDTO, token: string) {
+    this.data = user;
     this.token = token;
   }
 
-  static set(user: User, token: string) {
+  static set(user: UserResponseDTO, token: string) {
     return new LoginResponseDTO(user, token);
   }
 }

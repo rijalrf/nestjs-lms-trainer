@@ -1,5 +1,6 @@
 import { Pagination } from 'src/common/dto/pagination.dto';
-import { MaterialEntity, MaterialPopularEntity } from './material.entity';
+import { MaterialEntity } from './material.entity';
+import { MaterialPopularSQLResult } from './material.queries';
 
 export class MaterialRequestDTO {
   title: string;
@@ -58,12 +59,12 @@ export class MaterialsPopularResponseDTO {
   description: string;
   countAssignment: number;
 
-  constructor(data: MaterialPopularEntity) {
+  constructor(data: MaterialPopularSQLResult) {
     this.title = data.title;
     this.description = data.description;
     this.countAssignment = Number(data.countAssignment);
   }
-  static set(data: MaterialPopularEntity[]) {
+  static set(data: MaterialPopularSQLResult[]) {
     return data.map((item) => new MaterialsPopularResponseDTO(item));
   }
 }

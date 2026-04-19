@@ -67,7 +67,10 @@ export class TopicController {
     @Param('id', ParseIntPipe) id: number,
     @ZBody(TopicValidation.CREATEUPDATE) request: TopicRequestDTO,
   ): Promise<TopicResponseDTO> {
-    const data = await this.topicService.update(id, request, user.id);
+    const data = await this.topicService.update(id, request, user.id
+
+      
+    );
     return data;
   }
 

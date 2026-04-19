@@ -3,6 +3,7 @@ import {
   UserRequestDTO,
   UserResponseDTO,
   UserResponseDTOwithPagination,
+  UserAuthDTO,
 } from './user.dto';
 import { UserRepository } from './user.repo';
 import { Pagination } from 'src/common/dto/pagination.dto';
@@ -86,13 +87,13 @@ export class UserService {
     }
   }
 
-  async findAuthByEmail(email: string): Promise<UserResponseDTO> {
+  async findAuthByEmail(email: string): Promise<UserAuthDTO> {
     try {
       const user = await this.userRepo.findByEmail(email);
       if (!user) {
         throw new HttpException('User not found', HttpStatus.NOT_FOUND);
       }
-      return UserResponseDTO.fromEntity(user);
+      return UserAuthDTO.fromEntity(user);
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
     }

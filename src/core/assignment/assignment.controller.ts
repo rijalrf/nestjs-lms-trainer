@@ -34,7 +34,7 @@ export class AssignmentController {
     @ZBody(AssignmentValidation.CREATEUPDATE) request: AssignmentRequestDTO,
     @AuthUser() user: UserResponseDTO,
   ): Promise<AssignmentResponseDTO> {
-    return this.assignmentService.create(request, user.id);
+    return this.assignmentService.create(request, user.id!);
   }
 
   @Put(':id')
@@ -44,7 +44,7 @@ export class AssignmentController {
     @ZBody(AssignmentValidation.CREATEUPDATE) request: AssignmentRequestDTO,
     @AuthUser() user: UserResponseDTO,
   ): Promise<AssignmentResponseDTO> {
-    return this.assignmentService.update(id, request, user.id);
+    return this.assignmentService.update(id, request, user.id!);
   }
 
   @Patch(':id/status')
@@ -57,7 +57,7 @@ export class AssignmentController {
     return this.assignmentService.updateStatus(
       id,
       status as AssignmentStatusEnum,
-      user.id,
+      user.id!,
     );
   }
 
