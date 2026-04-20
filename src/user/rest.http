@@ -7,7 +7,7 @@ Content-Type: application/json
     "password": "GitaAmel!a",
     "divisi": "R&D",
     "position": "Lead",
-    "roles": "ADMIN"
+    "role": "ADMIN"
 }
 
 ###

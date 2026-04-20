@@ -21,9 +21,12 @@ export class AssignmentService {
     try {
       const assignment = await this.assignmentRepo.create(request, userId);
       return AssignmentResponseDTO.fromEntity(assignment);
-    } catch (error: any) {
+    } catch (error) {
       console.error(error);
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        error instanceof Error ? error.message : 'Internal Server Error',
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
 
@@ -35,9 +38,12 @@ export class AssignmentService {
     try {
       const assignment = await this.assignmentRepo.update(id, request, userId);
       return AssignmentResponseDTO.fromEntity(assignment);
-    } catch (error: any) {
+    } catch (error) {
       console.error(error);
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        error instanceof Error ? error.message : 'Internal Server Error',
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
 
@@ -53,9 +59,12 @@ export class AssignmentService {
         userId,
       );
       return AssignmentResponseDTO.fromEntity(assignment);
-    } catch (error: any) {
+    } catch (error) {
       console.error(error);
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        error instanceof Error ? error.message : 'Internal Server Error',
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
 
@@ -77,9 +86,12 @@ export class AssignmentService {
         assignments,
         new Pagination(page, limit, count),
       );
-    } catch (error: any) {
+    } catch (error) {
       console.error(error);
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        error instanceof Error ? error.message : 'Internal Server Error',
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
 
@@ -90,18 +102,24 @@ export class AssignmentService {
         throw new HttpException('Assignment not found', HttpStatus.NOT_FOUND);
       }
       return AssignmentResponseDTO.fromEntity(data);
-    } catch (error: any) {
+    } catch (error) {
       console.error(error);
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        error instanceof Error ? error.message : 'Internal Server Error',
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
 
   async delete(id: number): Promise<void> {
     try {
       await this.assignmentRepo.delete(id);
-    } catch (error: any) {
+    } catch (error) {
       console.error(error);
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        error instanceof Error ? error.message : 'Internal Server Error',
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
 
@@ -117,9 +135,12 @@ export class AssignmentService {
         status,
         count,
       );
-    } catch (error: any) {
+    } catch (error) {
       console.error(error);
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        error instanceof Error ? error.message : 'Internal Server Error',
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
 
@@ -135,9 +156,12 @@ export class AssignmentService {
         countAssignment: item.countAssignment,
       }));
       return AssignmentResponseTopTrainerDTO.set(result);
-    } catch (error: any) {
+    } catch (error) {
       console.error(error);
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        error instanceof Error ? error.message : 'Internal Server Error',
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
 }

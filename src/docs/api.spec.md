@@ -31,7 +31,7 @@
     "email": "john.doe@example.com",
     "divisi": "IT",
     "position": "Software Engineer",
-    "roles": "ADMIN"
+    "role": "ADMIN"
   }
 }
 ```
@@ -86,7 +86,7 @@
   "password": "GitaAmel!a",
   "divisi": "R&D",
   "position": "Lead",
-  "roles": "ADMIN"
+  "role": "ADMIN"
 }
 ```
 
@@ -103,7 +103,7 @@
     "email": "gita.amelia@example.com",
     "divisi": "R&D",
     "position": "Lead",
-    "roles": "ADMIN"
+    "role": "ADMIN"
   }
 }
 ```
@@ -145,7 +145,7 @@
   "password": "GitaAmel!a",
   "divisi": "R&D",
   "position": "Lead",
-  "roles": "ADMIN"
+  "role": "ADMIN"
 }
 ```
 
@@ -161,7 +161,7 @@
     "email": "gita.amelia@example.com",
     "divisi": "R&D",
     "position": "Lead",
-    "roles": "ADMIN"
+    "role": "ADMIN"
   }
 }
 ```
@@ -188,7 +188,7 @@
       "email": "john.doe@example.com",
       "divisi": "IT",
       "position": "Software Engineer",
-      "roles": "ADMIN"
+      "role": "ADMIN"
     },
     {
       "id": "2",
@@ -196,7 +196,7 @@
       "email": "jane.doe@example.com",
       "divisi": "HR",
       "position": "Recruiter",
-      "roles": "USER"
+      "role": "USER"
     }
   ],
   "pagination": {
@@ -226,7 +226,7 @@
     "email": "john.doe@example.com",
     "divisi": "IT",
     "position": "Software Engineer",
-    "roles": "ADMIN"
+    "role": "ADMIN"
   }
 }
 ```

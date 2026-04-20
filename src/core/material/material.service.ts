@@ -29,8 +29,11 @@ export class MaterialService {
       const data = await this.materialRepo.create(request, userId);
       return MaterialResponseDTO.fromEntity(data);
     } catch (error) {
-      console.log(error);
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      console.error(error);
+      throw new HttpException(
+        error instanceof Error ? error.message : 'Internal Server Error',
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
 
@@ -43,9 +46,11 @@ export class MaterialService {
       const data = await this.materialRepo.update(id, request, userId);
       return MaterialResponseDTO.fromEntity(data);
     } catch (error) {
-      console.log(error);
-      console.log(error);
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      console.error(error);
+      throw new HttpException(
+        error instanceof Error ? error.message : 'Internal Server Error',
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
 
@@ -53,8 +58,11 @@ export class MaterialService {
     try {
       await this.materialRepo.delete(id);
     } catch (error) {
-      console.log(error);
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      console.error(error);
+      throw new HttpException(
+        error instanceof Error ? error.message : 'Internal Server Error',
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
 
@@ -67,8 +75,11 @@ export class MaterialService {
       }
       return MaterialResponseDTO.fromEntity(data);
     } catch (error) {
-      console.log(error);
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      console.error(error);
+      throw new HttpException(
+        error instanceof Error ? error.message : 'Internal Server Error',
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
 
@@ -91,8 +102,11 @@ export class MaterialService {
       );
       return MaterialResponseDTOwithPagination.set(data, pagination);
     } catch (error) {
-      console.log(error);
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      console.error(error);
+      throw new HttpException(
+        error instanceof Error ? error.message : 'Internal Server Error',
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
 
@@ -106,8 +120,11 @@ export class MaterialService {
       const count = await this.materialRepo.countAll();
       return count;
     } catch (error) {
-      console.log(error);
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      console.error(error);
+      throw new HttpException(
+        error instanceof Error ? error.message : 'Internal Server Error',
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
 
@@ -116,8 +133,11 @@ export class MaterialService {
       const data = await this.materialRepo.findMaterialPopular();
       return MaterialsPopularResponseDTO.set(data);
     } catch (error) {
-      console.log(error);
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      console.error(error);
+      throw new HttpException(
+        error instanceof Error ? error.message : 'Internal Server Error',
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
 }

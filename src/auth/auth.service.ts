@@ -24,11 +24,13 @@ export class AuthService {
       }
       const token = uuid();
       await this.userService.setUserToken(user.id, token);
-      return LoginResponseDTO.set(user, token);
+      
+      const userResponse = UserResponseDTO.fromEntity(user);
+      return LoginResponseDTO.set(userResponse, token);
     } catch (error) {
       console.error(error);
       throw new HttpException(
-        'Invalid email or password',
+        error instanceof Error ? error.message : 'Invalid email or password',
         HttpStatus.BAD_REQUEST,
       );
     }
@@ -38,19 +40,23 @@ export class AuthService {
       await this.userService.clearTokenById(user.id);
     } catch (error) {
       console.error(error);
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        error instanceof Error ? error.message : 'Internal Server Error',
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
 
   async register(request: UserRequestDTO): Promise<UserResponseDTO> {
-    const hashPassword = await this.hashService.hashPassword(request.password);
-    request.password = hashPassword;
     try {
       const user = await this.userService.register(request);
       return user;
     } catch (error) {
       console.error(error);
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        error instanceof Error ? error.message : 'Internal Server Error',
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
 

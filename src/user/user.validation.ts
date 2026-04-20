@@ -7,6 +7,6 @@ export class UserValidation {
     password: z.string().optional(),
     divisi: z.string().min(2).max(50),
     position: z.string().min(3).max(50),
-    roles: z.enum(['ADMIN', 'USER']),
+    role: z.enum(['ADMIN', 'USER']),
   });
 }

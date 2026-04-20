@@ -20,7 +20,11 @@ export class TopicService {
       const topic = await this.topicRepo.create(request, userId);
       return TopicResponseDTO.fromEntity(topic);
     } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      console.error(error);
+      throw new HttpException(
+        error instanceof Error ? error.message : 'Internal Server Error',
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
 
@@ -33,7 +37,11 @@ export class TopicService {
       const topic = await this.topicRepo.update(id, request, userId);
       return TopicResponseDTO.fromEntity(topic);
     } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      console.error(error);
+      throw new HttpException(
+        error instanceof Error ? error.message : 'Internal Server Error',
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
 
@@ -41,7 +49,11 @@ export class TopicService {
     try {
       await this.topicRepo.delete(id);
     } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      console.error(error);
+      throw new HttpException(
+        error instanceof Error ? error.message : 'Internal Server Error',
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
 
@@ -57,7 +69,11 @@ export class TopicService {
       const topics = await this.topicRepo.findAll(title, skip, limit);
       return TopicResponseDTOwithPagination.set(topics, pagination);
     } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      console.error(error);
+      throw new HttpException(
+        error instanceof Error ? error.message : 'Internal Server Error',
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
 
@@ -69,7 +85,11 @@ export class TopicService {
       }
       return TopicResponseDTO.fromEntity(topic);
     } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      console.error(error);
+      throw new HttpException(
+        error instanceof Error ? error.message : 'Internal Server Error',
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
 
@@ -78,7 +98,11 @@ export class TopicService {
       const topicPopulars = await this.topicRepo.findTopicPopular();
       return TopicPopularResponseDTO.set(topicPopulars);
     } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      console.error(error);
+      throw new HttpException(
+        error instanceof Error ? error.message : 'Internal Server Error',
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
 }

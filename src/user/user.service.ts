@@ -27,25 +27,27 @@ export class UserService {
       const user = await this.userRepo.create(request);
       return UserResponseDTO.fromEntity(user);
     } catch (error) {
-      console.log(error);
-
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      console.error(error);
+      throw new HttpException(error instanceof Error ? error.message : 'Internal Server Error', HttpStatus.BAD_REQUEST);
     }
   }
 
   async update(id: number, request: UserRequestDTO): Promise<UserResponseDTO> {
-    const hashPassword = await this.hashService.hashPassword(request.password);
-    request.password = hashPassword;
     try {
-      if (request.password === '') {
+      if (!request.password || request.password === '') {
         const user = await this.userRepo.updateUserWithoutPassword(id, request);
         return UserResponseDTO.fromEntity(user);
       }
+      const hashPassword = await this.hashService.hashPassword(request.password);
+      request.password = hashPassword;
       const user = await this.userRepo.update(id, request);
       return UserResponseDTO.fromEntity(user);
     } catch (error) {
-      console.log(error);
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      console.error(error);
+      throw new HttpException(
+        error instanceof Error ? error.message : 'Internal Server Error',
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
 
@@ -53,8 +55,8 @@ export class UserService {
     try {
       await this.userRepo.delete(id);
     } catch (error) {
-      console.log(error);
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      console.error(error);
+      throw new HttpException(error instanceof Error ? error.message : 'Internal Server Error', HttpStatus.BAD_REQUEST);
     }
   }
 
@@ -69,8 +71,8 @@ export class UserService {
       const users = await this.userRepo.findAll(page, limit);
       return UserResponseDTOwithPagination.set(users, pagination);
     } catch (error) {
-      console.log(error);
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      console.error(error);
+      throw new HttpException(error instanceof Error ? error.message : 'Internal Server Error', HttpStatus.BAD_REQUEST);
     }
   }
 
@@ -82,8 +84,8 @@ export class UserService {
       }
       return UserResponseDTO.fromEntity(user);
     } catch (error) {
-      console.log(error);
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      console.error(error);
+      throw new HttpException(error instanceof Error ? error.message : 'Internal Server Error', HttpStatus.BAD_REQUEST);
     }
   }
 
@@ -95,7 +97,8 @@ export class UserService {
       }
       return UserAuthDTO.fromEntity(user);
     } catch (error) {
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      console.error(error);
+      throw new HttpException(error instanceof Error ? error.message : 'Internal Server Error', HttpStatus.BAD_REQUEST);
     }
   }
 
@@ -107,8 +110,8 @@ export class UserService {
       }
       return UserResponseDTO.fromEntity(user);
     } catch (error) {
-      console.log(error);
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      console.error(error);
+      throw new HttpException(error instanceof Error ? error.message : 'Internal Server Error', HttpStatus.BAD_REQUEST);
     }
   }
 
@@ -116,8 +119,8 @@ export class UserService {
     try {
       await this.userRepo.updateUserToken(id, token);
     } catch (error) {
-      console.log(error);
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      console.error(error);
+      throw new HttpException(error instanceof Error ? error.message : 'Internal Server Error', HttpStatus.BAD_REQUEST);
     }
   }
 
@@ -129,8 +132,8 @@ export class UserService {
       }
       return UserResponseDTO.fromEntity(user);
     } catch (error) {
-      console.log(error);
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      console.error(error);
+      throw new HttpException(error instanceof Error ? error.message : 'Internal Server Error', HttpStatus.BAD_REQUEST);
     }
   }
 
@@ -138,8 +141,8 @@ export class UserService {
     try {
       await this.userRepo.clearTokenById(id);
     } catch (error) {
-      console.log(error);
-      throw new HttpException(error.message, HttpStatus.BAD_REQUEST);
+      console.error(error);
+      throw new HttpException(error instanceof Error ? error.message : 'Internal Server Error', HttpStatus.BAD_REQUEST);
     }
   }
 }
