@@ -10,21 +10,21 @@ import { MaterialEntity } from '../material/material.entity';
 
 
 export class AssignmentRequestDTO {
-  id: number;
-  topicId: number;
-  materialId: number;
-  userId: number;
-  trainingDate: Date;
-  startTime: Date;
-  endTime: Date;
-  maxParticipant: number;
-  classRoomLink: string;
-  status: AssignmentStatusEnum;
+  id!: number;
+  topicId!: number;
+  materialId!: number;
+  userId!: number;
+  trainingDate!: Date;
+  startTime!: Date;
+  endTime!: Date;
+  maxParticipant!: number;
+  classRoomLink!: string;
+  status!: AssignmentStatusEnum;
 }
 
 export class AssignmentResponseCountStatusDTO {
-  status: string;
-  count: number;
+  status!: string;
+  count!: number;
 
   constructor(status: string, count: number) {
     this.status = status;

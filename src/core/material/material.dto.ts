@@ -3,18 +3,18 @@ import { MaterialEntity } from './material.entity';
 import { MaterialPopularSQLResult } from './material.queries';
 
 export class MaterialRequestDTO {
-  title: string;
-  description: string;
-  topicId: number;
-  fileUrl: string;
+  title!: string;
+  description!: string;
+  topicId!: number;
+  fileUrl!: string;
 }
 
 export class MaterialResponseDTO {
   id?: number;
-  title: string;
-  description: string;
-  topicId: number;
-  fileUrl: string;
+  title!: string;
+  description!: string;
+  topicId!: number;
+  fileUrl!: string;
 
   constructor(material: MaterialEntity) {
     this.id = material.id;

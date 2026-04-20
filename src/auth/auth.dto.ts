@@ -1,8 +1,8 @@
 import { UserResponseDTO } from 'src/user/user.dto';
 
 export class LoginRequestDTO {
-  email: string;
-  password: string;
+  email!: string;
+  password!: string;
 }
 
 export class LoginResponseDTO {

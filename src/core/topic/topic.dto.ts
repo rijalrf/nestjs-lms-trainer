@@ -2,14 +2,14 @@ import { Pagination } from 'src/common/dto/pagination.dto';
 import { TopicEntity, TopicPopularEntity } from './topic.entity';
 
 export class TopicRequestDTO {
-  title: string;
-  description: string;
+  title!: string;
+  description!: string;
 }
 
 export class TopicResponseDTO {
   id?: number;
-  title: string;
-  description: string;
+  title!: string;
+  description!: string;
 
   constructor(topic: TopicEntity) {
     this.id = topic.id;
